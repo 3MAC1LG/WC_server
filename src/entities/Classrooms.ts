@@ -43,18 +43,18 @@ export class Classrooms {
   @Column('int', { name: 'OwnerId', nullable: true })
   OwnerId: number | null;
 
-  @OneToMany(() => Channels, (channels) => Channels.Classroom)
+  @OneToMany(() => Channels, (channels) => channels.Classroom)
   Channels: Channels[];
 
   @OneToMany(() => DMs, (dms) => dms.Classroom)
   DMs: DMs[];
 
-  @OneToMany(() => Mentions, (mentions) => Mentions.Classroom)
+  @OneToMany(() => Mentions, (mentions) => mentions.Classroom)
   Mentions: Mentions[];
 
   @OneToMany(
     () => ClassroomMembers,
-    (classroommembers) => classroomMembers.Classroom,
+    (classroommembers) => classroommembers.Classroom,
     { cascade: ['insert'] },
   )
   ClassroomMembers: ClassroomMembers[];

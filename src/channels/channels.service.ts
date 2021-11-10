@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MoreThan, Repository } from 'typeorm';
 import { ChannelChats } from '../entities/ChannelChats';
-import { Channelmembers } from '../entities/ChannelMembers';
+import { ChannelMembers } from '../entities/ChannelMembers';
 import { Channels } from '../entities/Channels';
 import { Users } from '../entities/Users';
 import { Classrooms } from '../entities/Classrooms';
@@ -13,8 +13,8 @@ export class ChannelsService {
   constructor(
     @InjectRepository(Channels)
     private channelsRepository: Repository<Channels>,
-    @InjectRepository(Channelmembers)
-    private channelMembersRepository: Repository<Channelmembers>,
+    @InjectRepository(ChannelMembers)
+    private channelMembersRepository: Repository<ChannelMembers>,
     @InjectRepository(Classrooms)
     private classroomsRepository: Repository<Classrooms>,
     @InjectRepository(ChannelChats)
@@ -64,7 +64,7 @@ export class ChannelsService {
     channel.name = name;
     channel.ClassroomId = classroom.id;
     const channelReturned = await this.channelsRepository.save(channel);
-    const channelMember = new Channelmembers();
+    const channelMember = new ChannelMembers();
     channelMember.UserId = myId;
     channelMember.ChannelId = channelReturned.id;
     await this.channelMembersRepository.save(channelMember);
@@ -103,7 +103,7 @@ export class ChannelsService {
     if (!user) {
       return null;
     }
-    const channelMember = new Channelmembers();
+    const channelMember = new ChannelMembers();
     channelMember.ChannelId = channel.id;
     channelMember.UserId = user.id;
     await this.channelMembersRepository.save(channelMember);

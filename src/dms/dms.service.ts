@@ -12,7 +12,7 @@ function getKeyByValue(object, value) {
 }
 
 @Injectable()
-export class DmsService {
+export class DMsService {
   constructor(
     @InjectRepository(Classrooms)
     private classroomsRepository: Repository<Classrooms>,

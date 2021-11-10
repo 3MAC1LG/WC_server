@@ -11,7 +11,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { ChannelChats } from './ChannelChats';
-import { ChannelMembers } from './Channelmembers';
+import { ChannelMembers } from './ChannelMembers';
 import { Channels } from './Channels';
 import { DMs } from './DMs';
 import { Mentions } from './Mentions';
@@ -32,12 +32,6 @@ export class Users {
 
   @Column('varchar', { name: 'password', length: 100, select: false })
   password: string;
-
-  @Column('varchar', { name: 'provider', default: 'local' })
-  provider: string;
-
-  @Column('int', { name: 'snsId', unique: true })
-  snsId: number;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -72,10 +66,10 @@ export class Users {
   )
   ClassroomMembers: ClassroomMembers[];
 
-  @OneToMany(() => Classrooms, (Classrooms) => Classrooms.Owner)
-  OwnedClassroom: Classroom[];
+  @OneToMany(() => Classrooms, (classrooms) => classrooms.Owner)
+  OwnedClassrooms: Classrooms[];
 
-  @ManyToMany(() => Classrooms, (Classrooms) => Classrooms.Members)
+  @ManyToMany(() => Classrooms, (classrooms) => classrooms.Members)
   @JoinTable({
     name: 'classroommembers',
     joinColumn: {
@@ -87,7 +81,7 @@ export class Users {
       referencedColumnName: 'id',
     },
   })
-  Classroom: Classroom[];
+  Classrooms: Classrooms[];
 
   @ManyToMany(() => Channels, (channels) => channels.Members)
   @JoinTable({

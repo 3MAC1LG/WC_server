@@ -12,7 +12,7 @@ import { Users } from './Users';
 
 @Index('UserId', ['UserId'], {})
 @Entity({ schema: 'nestsolbon', name: 'channelmembers' })
-export class Channelmembers {
+export class ChannelMembers {
   @CreateDateColumn()
   createdAt: Date;
 

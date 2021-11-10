@@ -16,6 +16,7 @@ import * as ormconfig from '../ormconfig';
 // import { ChannelsModule } from './channels/channels.module';
 import { DMsModule } from './dms/dms.module';
 import { FrontendMiddleware } from './middlewares/frontend.middleware';
+import { OauthModule } from './oauth/oauth.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { FrontendMiddleware } from './middlewares/frontend.middleware';
     // ClassroomsModule,
     // ChannelsModule,
     DMsModule,
+    OauthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

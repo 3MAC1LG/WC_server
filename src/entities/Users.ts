@@ -33,6 +33,12 @@ export class Users {
   @Column('varchar', { name: 'password', length: 100, select: false })
   password: string;
 
+  @Column('varchar', { name: 'provider', default: 'local' })
+  provider: string;
+
+  @Column('int', { name: 'snsId', unique: true })
+  snsId: number;
+
   @CreateDateColumn()
   createdAt: Date;
 

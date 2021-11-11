@@ -25,7 +25,7 @@ export class KakaoStrategy extends PassportStrategy(Strategy) {
       return null;
     }
 
-    if (typeof id !== 'string') {
+    if (typeof id === 'string') {
       changedId = Number(id);
     } else changedId = id;
 

@@ -5,15 +5,12 @@ import {
   Entity,
   Index,
   JoinTable,
-  ManyToMany,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ChannelChats } from './StudyroomChats';
-import { ChannelMembers } from './StudyroomMembers';
-import { Sections } from './Sections';
+import { StudyroomMembers } from './StudyroomMembers';
 import { Chats } from './Chats';
 import { Qnas } from './Qnas';
 import { ClassroomMembers } from './ClassroomMembers';
@@ -51,12 +48,6 @@ export class Users {
   @DeleteDateColumn()
   deletedAt: Date | null;
 
-  @OneToMany(() => ChannelChats, (channelchats) => channelchats.User)
-  ChannelChats: ChannelChats[];
-
-  @OneToMany(() => ChannelMembers, (channelmembers) => channelmembers.User)
-  ChannelMembers: ChannelMembers[];
-
   @OneToOne(() => Wishlists, (wishlist) => wishlist.User)
   Users: Users[];
 
@@ -81,8 +72,6 @@ export class Users {
   @OneToMany(() => Classrooms, (classrooms) => classrooms.Owner)
   OwnedClassrooms: Classrooms[];
 
-  @ManyToMany(() => Classrooms, (classrooms) => classrooms.Members)
-
   @JoinTable({
     name: 'classroommembers',
     joinColumn: {
@@ -104,34 +93,4 @@ export class Users {
 
   @OneToMany(() => Studyrooms, (studyrooms) => studyrooms.Owner)
   OwnedStudyrooms: Studyrooms[];
-
-  @ManyToMany(() => Studyrooms, (studyrooms) => studyrooms.Members)
-  Studyrooms: Studyrooms[];
-
-  @JoinTable({
-    name: 'studyroommembers',
-    joinColumn: {
-      name: 'UserId',
-      referencedColumnName: 'id',
-    },
-    inverseJoinColumn: {
-      name: 'StudyroomId',
-      referencedColumnName: 'id',
-    },
-  })
-  Studyrooms: Studyrooms[];
-
-  @ManyToMany(() => Sections, (setions) => sections.Members)
-  @JoinTable({
-    name: 'channelmembers',
-    joinColumn: {
-      name: 'UserId',
-      referencedColumnName: 'id',
-    },
-    inverseJoinColumn: {
-      name: 'ChannelId',
-      referencedColumnName: 'id',
-    },
-  })
-  Channels: Channels[];
 }

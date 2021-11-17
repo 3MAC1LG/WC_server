@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ChannelMembers } from '../entities/ChannelMembers';
+import { ChannelMembers } from '../entities/StudyroomMembers';
 import { Channels } from '../entities/Sections';
 import { Users } from '../entities/Users';
 import { ClassroomMembers } from '../entities/ClassroomMembers';

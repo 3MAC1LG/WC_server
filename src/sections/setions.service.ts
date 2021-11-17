@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MoreThan, Repository } from 'typeorm';
-import { ChannelChats } from '../entities/ChannelChats';
-import { ChannelMembers } from '../entities/ChannelMembers';
+import { ChannelChats } from '../entities/StudyroomChats';
+import { ChannelMembers } from '../entities/StudyroomMembers';
 import { Channels } from '../entities/Sections';
 import { Users } from '../entities/Users';
 import { Classrooms } from '../entities/Classrooms';

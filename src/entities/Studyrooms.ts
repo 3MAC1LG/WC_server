@@ -11,9 +11,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Sections } from './Sections';
 import { Chats } from './Chats';
-import { Qnas } from './Qnas';
 import { ClassroomMembers } from './ClassroomMembers';
 import { Users } from './Users';
 import { Classrooms } from './Classrooms';

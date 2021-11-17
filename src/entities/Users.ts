@@ -11,8 +11,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ChannelChats } from './ChannelChats';
-import { ChannelMembers } from './ChannelMembers';
+import { ChannelChats } from './StudyroomChats';
+import { ChannelMembers } from './StudyroomMembers';
 import { Sections } from './Sections';
 import { Chats } from './Chats';
 import { Qnas } from './Qnas';

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ChannelMembers } from '../entities/ChannelMembers';
+import { ChannelMembers } from '../entities/StudyroomMembers';
 import { Channels } from '../entities/Sections';
 import { Users } from '../entities/Users';
 import { ClassroomMembers } from '../entities/ClassroomMembers';

@@ -11,8 +11,8 @@ import { Sections } from './Sections';
 import { Users } from './Users';
 
 @Index('UserId', ['UserId'], {})
-@Entity({ schema: 'nestsolbon', name: 'channelmembers' })
-export class ChannelMembers {
+@Entity({ schema: 'nestsolbon', name: 'studyroommembers' })
+export class StudyroomMembers {
   @CreateDateColumn()
   createdAt: Date;
 
@@ -25,14 +25,7 @@ export class ChannelMembers {
   @Column('int', { primary: true, name: 'UserId' })
   UserId: number;
 
-  @ManyToOne(() => Sections, (sections) => sections.ChannelMembers, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  @JoinColumn([{ name: 'ChannelId', referencedColumnName: 'id' }])
-  Section: Sections;
-
-  @ManyToOne(() => Users, (users) => users.ChannelMembers, {
+  @ManyToOne(() => Users, (users) => users.StudyroomMembers, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })

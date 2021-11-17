@@ -11,8 +11,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ChannelChats } from './ChannelChats';
-import { ChannelMembers } from './ChannelMembers';
 import { Users } from './Users';
 import { Videos } from './Videos';
 import { Classrooms } from './Classrooms';
@@ -45,14 +43,6 @@ export class Sections {
 
   @Column('int', { name: 'ClassroomId', nullable: true })
   ClassroomId: number | null;
-
-  @OneToMany(() => ChannelChats, (channelchats) => channelchats.Channel)
-  ChannelChats: ChannelChats[];
-
-  @OneToMany(() => ChannelMembers, (channelMembers) => channelMembers.Section, {
-    cascade: ['insert'],
-  })
-  ChannelMembers: ChannelMembers[];
 
   @OneToMany(() => Videos, (videos) => videos.Section, {
     cascade: ['insert'],

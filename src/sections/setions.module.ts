@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ChannelChats } from '../entities/ChannelChats';
-import { ChannelMembers } from '../entities/ChannelMembers';
+import { ChannelChats } from '../entities/StudyroomChats';
+import { ChannelMembers } from '../entities/StudyroomMembers';
 import { Channels } from '../entities/Sections';
 import { Users } from '../entities/Users';
 import { ChannelsService } from './setions.service';

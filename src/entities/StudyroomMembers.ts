@@ -7,7 +7,7 @@ import {
   ManyToOne,
   UpdateDateColumn,
 } from 'typeorm';
-import { Sections } from './Sections';
+import { Studyrooms } from './Studyrooms';
 import { Users } from './Users';
 
 @Index('UserId', ['UserId'], {})
@@ -24,6 +24,12 @@ export class StudyroomMembers {
 
   @Column('int', { primary: true, name: 'UserId' })
   UserId: number;
+
+  @ManyToOne(() => Studyrooms, (studyroom) => studyroom.StudyroomMembers,{
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  Studyroom: Studyrooms;
 
   @ManyToOne(() => Users, (users) => users.StudyroomMembers, {
     onDelete: 'CASCADE',

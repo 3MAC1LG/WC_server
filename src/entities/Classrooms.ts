@@ -5,7 +5,6 @@ import {
   Entity,
   Index,
   JoinColumn,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -61,7 +60,4 @@ export class Classrooms {
   })
   @JoinColumn([{ name: 'OwnerId', referencedColumnName: 'id' }])
   Owner: Users;
-
-  @ManyToMany(() => Users, (users) => users.Classrooms)
-  Members: Users[];
  } 

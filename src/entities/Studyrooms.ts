@@ -12,7 +12,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Chats } from './Chats';
-import { ClassroomMembers } from './ClassroomMembers';
+import { StudyroomMembers } from './StudyroomMembers';
 import { Users } from './Users';
 import { Classrooms } from './Classrooms';
 import { Videos } from './Videos';
@@ -53,11 +53,11 @@ export class Studyrooms {
   Chats: Chats[];
 
   @OneToMany(
-    () => ClassroomMembers,
-    (classroommembers) => classroommembers.Classroom,
+    () => StudyroomMembers,
+    (studyroomMembers) => studyroomMembers.Studyroom,
     { cascade: ['insert'] },
   )
-  ClassroomMembers: ClassroomMembers[];
+  StudyroomMembers: StudyroomMembers[];
 
   @ManyToOne(() => Videos, (video) => video.Studyrooms,{
     onDelete: 'SET NULL',
@@ -77,7 +77,4 @@ export class Studyrooms {
   })
   @JoinColumn([{ name: 'OwnerId', referencedColumnName: 'id' }])
   Owner: Users;
-
-  @ManyToMany(() => Users, (users) => users.Studyrooms)
-  Members: Users[];
  }

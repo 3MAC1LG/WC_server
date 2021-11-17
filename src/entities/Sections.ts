@@ -17,7 +17,7 @@ import { Classrooms } from './Classrooms';
 
 @Index('ClassroomId', ['ClassroomId'], {})
 @Entity({ schema: 'nestsolbon' })
-export class Channels {
+export class Sections {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
@@ -44,7 +44,12 @@ export class Channels {
   @OneToMany(() => ChannelChats, (channelchats) => channelchats.Channel)
   ChannelChats: ChannelChats[];
 
-  @OneToMany(() => ChannelMembers, (channelMembers) => channelMembers.Channel, {
+  @OneToMany(() => ChannelMembers, (channelMembers) => channelMembers.Section, {
+    cascade: ['insert'],
+  })
+  ChannelMembers: ChannelMembers[];
+
+  @OneToMany(() => Videos, (channelMembers) => channelMembers.Section, {
     cascade: ['insert'],
   })
   ChannelMembers: ChannelMembers[];

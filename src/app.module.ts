@@ -13,7 +13,7 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { UsersModule } from './users/users.module';
 import * as ormconfig from '../ormconfig';
 import { ClassroomsModule } from './classrooms/classrooms.module';
-import { ChannelsModule } from './channels/channels.module';
+import { ChannelsModule } from './sections/setions.module';
 import { DMsModule } from './dms/dms.module';
 import { FrontendMiddleware } from './middlewares/frontend.middleware';
 import { OauthModule } from './oauth/oauth.module';

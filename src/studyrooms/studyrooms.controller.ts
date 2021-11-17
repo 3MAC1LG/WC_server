@@ -11,8 +11,8 @@ import {
   import { LoggedInGuard } from '../auth/logged-in.guard';
   import { User } from '../decorators/user.decorator';
   import { Users } from '../entities/Users';
-  import { CreateClassroomDto } from './dto/create-classroom.dto';
-  import { ClassroomsService } from './classrooms.service';
+  import { CreateClassroomDto } from './dto/create-studyroom.dto';
+  import { ClassroomsService } from './studyrooms.service';
   
   @ApiTags('CLASSROOM')
   @ApiCookieAuth('connect.sid')

@@ -12,11 +12,12 @@ import {
 } from 'typeorm';
 import { ChannelChats } from './ChannelChats';
 import { ChannelMembers } from './ChannelMembers';
-import { Channels } from './Channels';
-import { DMs } from './DMs';
-import { Mentions } from './Mentions';
+import { Sections } from './Sections';
+import { DMs } from './Chats';
+import { Mentions } from './Qnas';
 import { ClassroomMembers } from './ClassroomMembers';
 import { Classrooms } from './Classrooms';
+import { Studyrooms } from './Studyrooms';
 
 @Index('email', ['email'], { unique: true })
 @Entity({ schema: 'nestsolbon', name: 'users' })
@@ -54,13 +55,13 @@ export class Users {
   @OneToMany(() => ChannelMembers, (channelmembers) => channelmembers.User)
   ChannelMembers: ChannelMembers[];
 
-  @OneToMany(() => DMs, (dms) => dms.Sender)
-  DMs: DMs[];
+  @OneToMany(() => Chats, (chats) => chats.Sender)
+  Chats: Chats[];
 
-  @OneToMany(() => DMs, (dms) => dms.Receiver)
-  DMs2: DMs[];
+  @OneToMany(() => Chats, (chats) => chats.Receiver)
+  Chats2: Chats[];
 
-  @OneToMany(() => Mentions, (mentions) => mentions.Sender)
+  @OneToMany(() => Qnas, (qnas) => qnas.Sender)
   Mentions: Mentions[];
 
   @OneToMany(() => Mentions, (mentions) => mentions.Receiver)
@@ -76,6 +77,7 @@ export class Users {
   OwnedClassrooms: Classrooms[];
 
   @ManyToMany(() => Classrooms, (classrooms) => classrooms.Members)
+
   @JoinTable({
     name: 'classroommembers',
     joinColumn: {
@@ -89,7 +91,31 @@ export class Users {
   })
   Classrooms: Classrooms[];
 
-  @ManyToMany(() => Channels, (channels) => channels.Members)
+  @OneToMany(
+    () => StudyroomMembers,
+    (studyroommembers) => studyroommembers.User,
+  )
+  StudyroomMembers: StudyroomMembers[];
+
+  @OneToMany(() => Studyrooms, (studyrooms) => studyrooms.Owner)
+  OwnedStudyrooms: Studyrooms[];
+
+  @ManyToMany(() => Studyrooms, (studyrooms) => studyrooms.Members)
+
+  @JoinTable({
+    name: 'studyroommembers',
+    joinColumn: {
+      name: 'UserId',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'StudyroomId',
+      referencedColumnName: 'id',
+    },
+  })
+  Studyrooms: Studyrooms[];
+
+  @ManyToMany(() => Sections, (setions) => sections.Members)
   @JoinTable({
     name: 'channelmembers',
     joinColumn: {

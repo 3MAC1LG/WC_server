@@ -12,7 +12,6 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Sections } from './Sections';
-import { Studyrooms } from './Studyrooms';
 import { DMs } from './Chats';
 import { Mentions } from './Qnas';
 import { ClassroomMembers } from './ClassroomMembers';
@@ -22,7 +21,7 @@ import { Users } from './Users';
 @Index('url', ['url'], { unique: true })
 @Index('OwnerId', ['OwnerId'], {})
 @Entity({ schema: 'nestsolbon', name: 'classrooms' })
-export class Classrooms {
+export class Studyrooms {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
@@ -44,11 +43,14 @@ export class Classrooms {
   @Column('int', { name: 'OwnerId', nullable: true })
   OwnerId: number | null;
 
-  @OneToMany(() => Studyrooms, (studyrooms) => studyrooms.Studyroom)
-  Studyrooms: Studyrooms[];
-
   @OneToMany(() => Sections, (sections) => sections.Section)
   Sections: Sections[];
+
+  @OneToMany(() => DMs, (dms) => dms.Classroom)
+  DMs: DMs[];
+
+  @OneToMany(() => Mentions, (mentions) => mentions.Classroom)
+  Mentions: Mentions[];
 
   @OneToMany(
     () => ClassroomMembers,

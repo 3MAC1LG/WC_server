@@ -7,7 +7,7 @@ import {
   ManyToOne,
   UpdateDateColumn,
 } from 'typeorm';
-import { Channels } from './Channels';
+import { Sections } from './Sections';
 import { Users } from './Users';
 
 @Index('UserId', ['UserId'], {})
@@ -25,12 +25,12 @@ export class ChannelMembers {
   @Column('int', { primary: true, name: 'UserId' })
   UserId: number;
 
-  @ManyToOne(() => Channels, (channels) => channels.ChannelMembers, {
+  @ManyToOne(() => Sections, (sections) => sections.ChannelMembers, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
   @JoinColumn([{ name: 'ChannelId', referencedColumnName: 'id' }])
-  Channel: Channels;
+  Section: Sections;
 
   @ManyToOne(() => Users, (users) => users.ChannelMembers, {
     onDelete: 'CASCADE',

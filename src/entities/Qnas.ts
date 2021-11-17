@@ -14,8 +14,8 @@ import { Users } from './Users';
 @Index('ClassroomId', ['ClassroomId'], {})
 @Index('SenderId', ['SenderId'], {})
 @Index('ReceiverId', ['ReceiverId'], {})
-@Entity({ schema: 'nestsolbon', name: 'mentions' })
-export class Mentions {
+@Entity({ schema: 'nestsolbon', name: 'qnas' })
+export class Qnas {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 

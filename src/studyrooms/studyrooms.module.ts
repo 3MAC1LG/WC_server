@@ -5,8 +5,8 @@ import { Channels } from '../entities/Sections';
 import { Users } from '../entities/Users';
 import { ClassroomMembers } from '../entities/ClassroomMembers';
 import { Classrooms } from '../entities/Classrooms';
-import { ClassroomsService } from './classrooms.service';
-import { ClassroomsController } from './classrooms.controller';
+import { ClassroomsService } from './studyrooms.service';
+import { ClassroomsController } from './studyrooms.controller';
 
 @Module({
   imports: [

@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { MoreThan, Repository } from 'typeorm';
 import { ChannelChats } from '../entities/ChannelChats';
 import { ChannelMembers } from '../entities/ChannelMembers';
-import { Channels } from '../entities/Channels';
+import { Channels } from '../entities/Sections';
 import { Users } from '../entities/Users';
 import { Classrooms } from '../entities/Classrooms';
 import { EventsGateway } from '../events/events.gateway';

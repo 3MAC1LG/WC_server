@@ -12,10 +12,12 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Sections } from './Sections';
-import { DMs } from './Chats';
-import { Mentions } from './Qnas';
+import { Chats } from './Chats';
+import { Qnas } from './Qnas';
 import { ClassroomMembers } from './ClassroomMembers';
 import { Users } from './Users';
+import { Classrooms } from './Classrooms';
+import { Videos } from './Videos';
 
 @Index('name', ['name'], { unique: true })
 @Index('url', ['url'], { unique: true })
@@ -43,14 +45,8 @@ export class Studyrooms {
   @Column('int', { name: 'OwnerId', nullable: true })
   OwnerId: number | null;
 
-  @OneToMany(() => Sections, (sections) => sections.Section)
-  Sections: Sections[];
-
-  @OneToMany(() => DMs, (dms) => dms.Classroom)
-  DMs: DMs[];
-
-  @OneToMany(() => Mentions, (mentions) => mentions.Classroom)
-  Mentions: Mentions[];
+  @OneToMany(() => Chats, (chats) => chats.Studyroom)
+  Chats: Chats[];
 
   @OneToMany(
     () => ClassroomMembers,
@@ -59,13 +55,25 @@ export class Studyrooms {
   )
   ClassroomMembers: ClassroomMembers[];
 
-  @ManyToOne(() => Users, (users) => users.Classrooms, {
+  @ManyToOne(() => Videos, (video) => video.Studyrooms,{
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  Video: Videos;
+
+  @ManyToOne(() => Classrooms, (classroom) => classroom.Studyrooms,{
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  Classroom: Classrooms;
+
+  @ManyToOne(() => Users, (users) => users.Studyrooms, {
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   })
   @JoinColumn([{ name: 'OwnerId', referencedColumnName: 'id' }])
   Owner: Users;
 
-  @ManyToMany(() => Users, (users) => users.Classrooms)
+  @ManyToMany(() => Users, (users) => users.Studyrooms)
   Members: Users[];
- } 
+ }

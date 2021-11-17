@@ -15,7 +15,7 @@ import { Users } from './Users';
 @Index('dms_ibfk_2', ['SenderId'], {})
 @Index('dms_ibfk_3', ['ReceiverId'], {})
 @Entity({ schema: 'nestsolbon', name: 'chats' })
-export class Chats {
+export class Wishlists {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
@@ -37,20 +37,10 @@ export class Chats {
   @Column('int', { name: 'ReceiverId', nullable: true })
   ReceiverId: number | null;
 
-  @ManyToOne(() => Studyrooms, (studyroom) => studyroom.Chats)
-  Studyroom: Studyrooms;
-
-  @ManyToOne(() => Users, (users) => users.Chats, {
+  @ManyToOne(() => Users, (users) => user.Wishlist, {
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   })
-  @JoinColumn([{ name: 'SenderId', referencedColumnName: 'id' }])
-  Sender: Users;
+  User: Users;
 
-  @ManyToOne(() => Users, (users) => users.Chats2, {
-    onDelete: 'SET NULL',
-    onUpdate: 'CASCADE',
-  })
-  @JoinColumn([{ name: 'ReceiverId', referencedColumnName: 'id' }])
-  Receiver: Users;
 }

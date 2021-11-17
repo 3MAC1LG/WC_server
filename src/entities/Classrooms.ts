@@ -13,8 +13,8 @@ import {
 } from 'typeorm';
 import { Sections } from './Sections';
 import { Studyrooms } from './Studyrooms';
-import { DMs } from './Chats';
-import { Mentions } from './Qnas';
+import { Chats } from './Chats';
+import { Qnas } from './Qnas';
 import { ClassroomMembers } from './ClassroomMembers';
 import { Users } from './Users';
 
@@ -44,10 +44,10 @@ export class Classrooms {
   @Column('int', { name: 'OwnerId', nullable: true })
   OwnerId: number | null;
 
-  @OneToMany(() => Studyrooms, (studyrooms) => studyrooms.Studyroom)
+  @OneToMany(() => Studyrooms, (studyrooms) => studyrooms.Classroom)
   Studyrooms: Studyrooms[];
 
-  @OneToMany(() => Sections, (sections) => sections.Section)
+  @OneToMany(() => Sections, (sections) => sections.Classroom)
   Sections: Sections[];
 
   @OneToMany(

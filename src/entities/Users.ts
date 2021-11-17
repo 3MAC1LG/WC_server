@@ -7,17 +7,19 @@ import {
   JoinTable,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { ChannelChats } from './ChannelChats';
 import { ChannelMembers } from './ChannelMembers';
 import { Sections } from './Sections';
-import { DMs } from './Chats';
-import { Mentions } from './Qnas';
+import { Chats } from './Chats';
+import { Qnas } from './Qnas';
 import { ClassroomMembers } from './ClassroomMembers';
 import { Classrooms } from './Classrooms';
 import { Studyrooms } from './Studyrooms';
+import { Wishlists } from './Wishlists';
 
 @Index('email', ['email'], { unique: true })
 @Entity({ schema: 'nestsolbon', name: 'users' })
@@ -55,6 +57,9 @@ export class Users {
   @OneToMany(() => ChannelMembers, (channelmembers) => channelmembers.User)
   ChannelMembers: ChannelMembers[];
 
+  @OneToOne(() => Wishlists, (wishlist) => wishlist.User)
+  Users: Users[];
+
   @OneToMany(() => Chats, (chats) => chats.Sender)
   Chats: Chats[];
 
@@ -62,10 +67,10 @@ export class Users {
   Chats2: Chats[];
 
   @OneToMany(() => Qnas, (qnas) => qnas.Sender)
-  Mentions: Mentions[];
+  Qnas: Qnas[];
 
-  @OneToMany(() => Mentions, (mentions) => mentions.Receiver)
-  Mentions2: Mentions[];
+  @OneToMany(() => Qnas, (qnas) => qnas.Receiver)
+  Qnas2: Qnas[];
 
   @OneToMany(
     () => ClassroomMembers,
@@ -101,6 +106,7 @@ export class Users {
   OwnedStudyrooms: Studyrooms[];
 
   @ManyToMany(() => Studyrooms, (studyrooms) => studyrooms.Members)
+  Studyrooms: Studyrooms[];
 
   @JoinTable({
     name: 'studyroommembers',

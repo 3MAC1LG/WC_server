@@ -13,6 +13,7 @@ import {
 import { ChannelChats } from './ChannelChats';
 import { ChannelMembers } from './ChannelMembers';
 import { Users } from './Users';
+import { Videos } from './Videos';
 import { Classrooms } from './Classrooms';
 
 @Index('ClassroomId', ['ClassroomId'], {})
@@ -49,15 +50,15 @@ export class Sections {
   })
   ChannelMembers: ChannelMembers[];
 
-  @OneToMany(() => Videos, (channelMembers) => channelMembers.Section, {
+  @OneToMany(() => Videos, (videos) => videos.Section, {
     cascade: ['insert'],
   })
-  ChannelMembers: ChannelMembers[];
+  Videos: Videos[];
 
   @ManyToMany(() => Users, (users) => users.Channels)
   Members: Users[];
 
-  @ManyToOne(() => Classrooms, (classrooms) => classrooms.Channels, {
+  @ManyToOne(() => Classrooms, (classroom) => classroom.Sections, {
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   })

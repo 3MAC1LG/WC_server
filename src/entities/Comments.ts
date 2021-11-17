@@ -5,17 +5,18 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Studyrooms } from './Studyrooms';
 import { Users } from './Users';
+import { Qnas } from './Qnas';
 
 @Index('ClassroomId', ['ClassroomId'], {})
 @Index('dms_ibfk_2', ['SenderId'], {})
 @Index('dms_ibfk_3', ['ReceiverId'], {})
 @Entity({ schema: 'nestsolbon', name: 'chats' })
-export class Chats {
+export class Comments {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
@@ -37,20 +38,6 @@ export class Chats {
   @Column('int', { name: 'ReceiverId', nullable: true })
   ReceiverId: number | null;
 
-  @ManyToOne(() => Studyrooms, (studyroom) => studyroom.Chats)
-  Studyroom: Studyrooms;
-
-  @ManyToOne(() => Users, (users) => users.Chats, {
-    onDelete: 'SET NULL',
-    onUpdate: 'CASCADE',
-  })
-  @JoinColumn([{ name: 'SenderId', referencedColumnName: 'id' }])
-  Sender: Users;
-
-  @ManyToOne(() => Users, (users) => users.Chats2, {
-    onDelete: 'SET NULL',
-    onUpdate: 'CASCADE',
-  })
-  @JoinColumn([{ name: 'ReceiverId', referencedColumnName: 'id' }])
-  Receiver: Users;
+  @OneToMany(() => Qnas, (qna) => qna.Comments)
+  Qnas: Qnas;
 }

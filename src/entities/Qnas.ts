@@ -5,11 +5,14 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Classrooms } from './Classrooms';
+import { Comments } from './Comments';
 import { Users } from './Users';
+import { Videos } from './Videos';
 
 @Index('ClassroomId', ['ClassroomId'], {})
 @Index('SenderId', ['SenderId'], {})
@@ -40,21 +43,24 @@ export class Qnas {
   @Column('int', { name: 'ReceiverId', nullable: true })
   ReceiverId: number | null;
 
-  @ManyToOne(() => Classrooms, (classrooms) => classrooms.Mentions, {
+  @OneToMany(() => Comments, (comments) => comments.Qnas)
+  Comments: Comments;
+
+  @ManyToOne(() => Videos, (video) => video.Qnas, {
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   })
   @JoinColumn([{ name: 'ClassroomId', referencedColumnName: 'id' }])
-  Classroom: Classrooms;
+  Video: Videos;
 
-  @ManyToOne(() => Users, (users) => users.Mentions, {
+  @ManyToOne(() => Users, (users) => users.Qnas, {
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   })
   @JoinColumn([{ name: 'SenderId', referencedColumnName: 'id' }])
   Sender: Users;
 
-  @ManyToOne(() => Users, (users) => users.Mentions2, {
+  @ManyToOne(() => Users, (users) => users.Qnas2, {
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   })

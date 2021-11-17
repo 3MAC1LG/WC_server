@@ -49,9 +49,6 @@ export class Sections {
   })
   Videos: Videos[];
 
-  @ManyToMany(() => Users, (users) => users.Channels)
-  Members: Users[];
-
   @ManyToOne(() => Classrooms, (classroom) => classroom.Sections, {
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',

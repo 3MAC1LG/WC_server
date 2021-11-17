@@ -8,6 +8,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  DeleteDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { ChannelChats } from './ChannelChats';
@@ -22,8 +23,11 @@ export class Videos {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'name', length: 30 })
-  name: string;
+  @Column('varchar', { name: 'Title', length: 30 })
+  Title: string;
+
+  @Column('varchar', { name: 'Videourl', unique: true, length: 30 })
+  Videourl: string;
 
   @Column('tinyint', {
     name: 'private',
@@ -38,6 +42,9 @@ export class Videos {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @DeleteDateColumn()
+  DeleteAt: Date;
 
   @Column('int', { name: 'ClassroomId', nullable: true })
   ClassroomId: number | null;

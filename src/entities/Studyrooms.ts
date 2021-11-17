@@ -27,11 +27,17 @@ export class Studyrooms {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'name', unique: true, length: 30 })
-  name: string;
+  @Column('varchar', { name: 'Title', unique: true, length: 30 })
+  Title: string;
 
-  @Column('varchar', { name: 'url', unique: true, length: 30 })
-  url: string;
+  @Column('varchar', { name: 'Thumburl', unique: true, length: 30 })
+  Thumburl: string;
+
+  @Column('varchar', { name: 'password', length: 100, select: false })
+  password: string;
+
+  @Column('varchar', { name: 'private', length: 100, select: false })
+  private: string; /** ????? 맞나? */
 
   @CreateDateColumn()
   createdAt: Date;

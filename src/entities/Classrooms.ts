@@ -13,8 +13,6 @@ import {
 } from 'typeorm';
 import { Sections } from './Sections';
 import { Studyrooms } from './Studyrooms';
-import { Chats } from './Chats';
-import { Qnas } from './Qnas';
 import { ClassroomMembers } from './ClassroomMembers';
 import { Users } from './Users';
 
@@ -26,11 +24,11 @@ export class Classrooms {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'name', unique: true, length: 30 })
-  name: string;
+  @Column('varchar', { name: 'Title', unique: true, length: 30 })
+  Title: string;
 
-  @Column('varchar', { name: 'url', unique: true, length: 30 })
-  url: string;
+  @Column('varchar', { name: 'Thumburl', unique: true, length: 30 })
+  Thumburl: string;
 
   @CreateDateColumn()
   createdAt: Date;

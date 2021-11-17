@@ -19,15 +19,15 @@ export class Chats {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('text', { name: 'content' })
-  content: string;
+  @Column('int', { name: 'OwnerId', nullable: true })
+  OwnerId: number | null;
 
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
-
+/* 
   @Column('int', { name: 'ClassroomId', nullable: true })
   ClassroomId: number | null;
 
@@ -36,7 +36,7 @@ export class Chats {
 
   @Column('int', { name: 'ReceiverId', nullable: true })
   ReceiverId: number | null;
-
+ */
   @ManyToOne(() => Studyrooms, (studyroom) => studyroom.Chats)
   Studyroom: Studyrooms;
 

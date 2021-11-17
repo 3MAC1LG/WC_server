@@ -7,6 +7,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 import { Studyrooms } from './Studyrooms';
 import { Users } from './Users';
@@ -19,14 +20,17 @@ export class Wishlists {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('text', { name: 'content' })
-  content: string;
+  @Column('int', { name: 'OwnerId', nullable: true })
+  OwnerId: number | null;
 
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 
   @Column('int', { name: 'ClassroomId', nullable: true })
   ClassroomId: number | null;

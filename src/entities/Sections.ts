@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   Index,
   JoinColumn,
@@ -22,8 +23,8 @@ export class Sections {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'name', length: 30 })
-  name: string;
+  @Column('varchar', { name: 'Title', length: 30 })
+  Title: string;
 
   @Column('tinyint', {
     name: 'private',
@@ -38,6 +39,9 @@ export class Sections {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @DeleteDateColumn()
+  DeleteAt: Date;
 
   @Column('int', { name: 'ClassroomId', nullable: true })
   ClassroomId: number | null;

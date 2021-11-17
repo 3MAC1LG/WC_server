@@ -7,6 +7,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  DeleteDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Users } from './Users';
@@ -20,8 +21,11 @@ export class Comments {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('text', { name: 'content' })
-  content: string;
+  @Column('int', { name: 'OwnerId', nullable: true })
+  OwnerId: number | null;
+
+  @Column('text', { name: 'contents' })
+  contents: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -29,14 +33,17 @@ export class Comments {
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @DeleteDateColumn()
+  DeleteAt: Date;
+
   @Column('int', { name: 'ClassroomId', nullable: true })
   ClassroomId: number | null;
 
-  @Column('int', { name: 'SenderId', nullable: true })
+/*   @Column('int', { name: 'SenderId', nullable: true })
   SenderId: number | null;
 
   @Column('int', { name: 'ReceiverId', nullable: true })
-  ReceiverId: number | null;
+  ReceiverId: number | null; */
 
   @OneToMany(() => Qnas, (qna) => qna.Comments)
   Qnas: Qnas;

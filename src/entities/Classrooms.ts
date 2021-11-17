@@ -11,9 +11,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Channels } from './Channels';
-import { DMs } from './DMs';
-import { Mentions } from './Mentions';
+import { Sections } from './Sections';
+import { Studyrooms } from './Studyrooms';
 import { ClassroomMembers } from './ClassroomMembers';
 import { Users } from './Users';
 
@@ -25,11 +24,11 @@ export class Classrooms {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'name', unique: true, length: 30 })
-  name: string;
+  @Column('varchar', { name: 'Title', unique: true, length: 30 })
+  Title: string;
 
-  @Column('varchar', { name: 'url', unique: true, length: 30 })
-  url: string;
+  @Column('varchar', { name: 'Thumburl', unique: true, length: 30 })
+  Thumburl: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -43,14 +42,11 @@ export class Classrooms {
   @Column('int', { name: 'OwnerId', nullable: true })
   OwnerId: number | null;
 
-  @OneToMany(() => Channels, (channels) => channels.Classroom)
-  Channels: Channels[];
+  @OneToMany(() => Studyrooms, (studyrooms) => studyrooms.Classroom)
+  Studyrooms: Studyrooms[];
 
-  @OneToMany(() => DMs, (dms) => dms.Classroom)
-  DMs: DMs[];
-
-  @OneToMany(() => Mentions, (mentions) => mentions.Classroom)
-  Mentions: Mentions[];
+  @OneToMany(() => Sections, (sections) => sections.Classroom)
+  Sections: Sections[];
 
   @OneToMany(
     () => ClassroomMembers,
@@ -69,4 +65,3 @@ export class Classrooms {
   @ManyToMany(() => Users, (users) => users.Classrooms)
   Members: Users[];
  } 
-//  

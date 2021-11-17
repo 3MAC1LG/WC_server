@@ -9,7 +9,7 @@ export class FrontendMiddleware implements NestMiddleware {
       next();
     } else {
       res.sendFile(
-        path.join(__dirname, '..', '..', '..', 'public', 'index.html'),
+        path.join(__dirname, '..', 'public','index.html'),
       );
     }
   }

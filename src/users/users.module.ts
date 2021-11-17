@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ChannelMembers } from '../entities/ChannelMembers';
+import { ChannelMembers } from '../entities/StudyroomMembers';
 import { Users } from '../entities/Users';
 import { ClassroomMembers } from '../entities/ClassroomMembers';
 

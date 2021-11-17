@@ -1,12 +1,12 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import dotenv from 'dotenv';
-import { ChannelChats } from 'src/entities/ChannelChats';
-import { ChannelMembers } from 'src/entities/ChannelMembers';
-import { Channels } from 'src/entities/Channels';
+import { ChannelChats } from 'src/entities/StudyroomChats';
+import { ChannelMembers } from 'src/entities/StudyroomMembers';
+import { Channels } from 'src/entities/Sections';
 import { ClassroomMembers } from 'src/entities/ClassroomMembers';
 import { Classrooms } from 'src/entities/Classrooms';
-import { DMs } from 'src/entities/DMs';
-import { Mentions } from 'src/entities/Mentions';
+import { DMs } from 'src/entities/Chats';
+import { Mentions } from 'src/entities/Qnas';
 import { Users } from 'src/entities/Users';
 
 dotenv.config();

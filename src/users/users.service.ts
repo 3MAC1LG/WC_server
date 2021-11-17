@@ -6,7 +6,7 @@ import {
   import { InjectRepository } from '@nestjs/typeorm';
   import { Connection, Repository } from 'typeorm';
   import bcrypt from 'bcrypt';
-  import { ChannelMembers } from '../entities/ChannelMembers';
+  import { ChannelMembers } from '../entities/StudyroomMembers';
   
   import { Users } from '../entities/Users';
   import { ClassroomMembers } from '../entities/ClassroomMembers';

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { onlineMap } from 'src/events/onlineMap';
 import { MoreThan, Repository } from 'typeorm';
-import { DMs } from '../entities/DMs';
+import { DMs } from '../entities/Chats';
 import { Users } from '../entities/Users';
 import { Classrooms } from '../entities/Classrooms';
 import { EventsGateway } from '../events/events.gateway';

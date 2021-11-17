@@ -21,13 +21,13 @@ import {
   export class ClassroomsController {
     constructor(private classroomsService: ClassroomsService) {}
   
-    @ApiOperation({ summary: '내 워크스페이스 가져오기' })
+    @ApiOperation({ summary: '내 클래스룸 가져오기' })
     @Get()
     async getMyWClassroom(@User() user: Users) {
       return this.classroomsService.findMyClassrooms(user.id);
     }
   
-    @ApiOperation({ summary: '워크스페이스 만들기' })
+    @ApiOperation({ summary: '클래스룸 만들기' })
     @Post()
     async createClassroom(@User() user: Users, @Body() body: CreateClassroomDto) {
       return this.classroomsService.createClassroom(
@@ -61,7 +61,7 @@ import {
       return this.classroomsService.getClassroomMember(url, id);
     }
   
-    @ApiOperation({ summary: '워크스페이스 특정멤버 가져오기' })
+    @ApiOperation({ summary: '클래스룸 특정멤버 가져오기' })
     @Get(':url/users/:id')
     async getClassroomUser(
       @Param('url') url: string,

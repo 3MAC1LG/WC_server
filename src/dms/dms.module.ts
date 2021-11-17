@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DMs } from '../entities/DMs';
+import { DMs } from '../entities/Chats';
 import { Users } from '../entities/Users';
 import { Classrooms } from '../entities/Classrooms';
 import { DMsController } from './dms.controller';

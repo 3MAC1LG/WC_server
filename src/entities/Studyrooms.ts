@@ -52,7 +52,7 @@ export class Studyrooms {
     (studyroommembers) => studyroommembers.Studyroom,
     { cascade: ['insert'] },
   )
-  StudyroomsMembers: StudyroomMembers[];
+  StudyroomMembers: StudyroomMembers[];
 
   @ManyToOne(() => Videos, (video) => video.Studyrooms, {
     onDelete: 'SET NULL',

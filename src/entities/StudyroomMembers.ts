@@ -36,7 +36,4 @@ export class StudyroomMembers {
   @JoinColumn([{ name: 'UserId', referencedColumnName: 'id' }])
   User: Users;
 
-  @ManyToOne(() => Studyrooms, (studyrooms) => studyrooms.StudyroomsMembers)
-  @JoinColumn([{ name: 'StudyroomId', referencedColumnName: 'id' }])
-  Studyroom: StudyroomMembers;
 }

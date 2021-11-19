@@ -2,23 +2,18 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  Index,
   JoinColumn,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   DeleteDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ChannelChats } from './StudyroomChats';
-import { ChannelMembers } from './StudyroomMembers';
-import { Users } from './Users';
 import { Studyrooms } from './Studyrooms';
 import { Sections } from './Sections';
 import { Qnas } from './Qnas';
 
-@Entity({ schema: 'nestsolbon', name: 'video' })
+@Entity({ schema: 'wc_server', name: 'videos' })
 export class Videos {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
@@ -46,16 +41,8 @@ export class Videos {
   @DeleteDateColumn()
   DeleteAt: Date;
 
-  @Column('int', { name: 'ClassroomId', nullable: true })
-  ClassroomId: number | null;
-
-  @OneToMany(() => ChannelChats, (channelchats) => channelchats.Channel)
-  ChannelChats: ChannelChats[];
-
-  @OneToMany(() => ChannelMembers, (channelMembers) => channelMembers.Section, {
-    cascade: ['insert'],
-  })
-  ChannelMembers: ChannelMembers[];
+  @Column('int', { name: 'SectionId', nullable: true })
+  SectionId: number | null;
 
   @OneToMany(() => Studyrooms, (studyrooms) => studyrooms.Video, {
     cascade: ['insert'],
@@ -72,13 +59,10 @@ export class Videos {
   })
   Sections: Sections[];
 
-  @ManyToMany(() => Users, (users) => users.Channels)
-  Members: Users[];
-
   @ManyToOne(() => Sections, (section) => section.Videos, {
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   })
-  @JoinColumn([{ name: 'ClassroomId', referencedColumnName: 'id' }])
+  @JoinColumn([{ name: 'SectionId', referencedColumnName: 'id' }])
   Section: Sections;
 }

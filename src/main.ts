@@ -1,5 +1,4 @@
 import { NestFactory } from '@nestjs/core';
-import { appendFile } from 'fs';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import passport from 'passport';
@@ -62,7 +61,7 @@ async function bootstrap() {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  const PORT = process.env.PORT || 4000;
+  const PORT = process.env.PORT || 4001;
   await app.listen(PORT);
   console.log(`server listening on port ${PORT}`);
 

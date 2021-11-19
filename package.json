@@ -1,5 +1,5 @@
 {
-  "name": "nestsolbon",
+  "name": "wc_server",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -26,13 +26,8 @@
     "@nestjs/core": "^8.0.0",
     "@nestjs/mapped-types": "*",
     "@nestjs/passport": "^8.0.1",
-<<<<<<< HEAD
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/platform-socket.io": "^8.2.1",
-=======
-    "@nestjs/platform-express": "^8.2.0",
-    "@nestjs/platform-socket.io": "^8.2.0",
->>>>>>> 55baa1c8dc91546a5c22233bb62003c8c7560088
     "@nestjs/swagger": "^5.1.4",
     "@nestjs/typeorm": "^8.0.2",
     "@nestjs/websockets": "^8.2.1",
@@ -42,11 +37,11 @@
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "cookie-parser": "^1.4.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "i": "^0.3.7",
     "multer": "^1.4.3",
-    "mysql": "^2.18.1",
     "mysql2": "^2.3.3-rc.0",
     "passport": "^0.5.0",
     "passport-kakao": "^1.0.1",

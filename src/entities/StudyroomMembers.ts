@@ -2,16 +2,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  Index,
   JoinColumn,
   ManyToOne,
   UpdateDateColumn,
 } from 'typeorm';
-import { Sections } from './Sections';
+import { Studyrooms } from './Studyrooms';
 import { Users } from './Users';
 
-@Index('UserId', ['UserId'], {})
-@Entity({ schema: 'nestsolbon', name: 'studyroommembers' })
+@Entity({ schema: 'wc_server', name: 'studyroommembers' })
 export class StudyroomMembers {
   @CreateDateColumn()
   createdAt: Date;
@@ -19,8 +17,8 @@ export class StudyroomMembers {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @Column('int', { primary: true, name: 'ChannelId' })
-  ChannelId: number;
+  @Column('int', { primary: true, name: 'StudyroomId' })
+  StudyroomId: number;
 
   @Column('int', { primary: true, name: 'UserId' })
   UserId: number;
@@ -31,4 +29,8 @@ export class StudyroomMembers {
   })
   @JoinColumn([{ name: 'UserId', referencedColumnName: 'id' }])
   User: Users;
+
+  @ManyToOne(() => Studyrooms, (studyrooms) => studyrooms.StudyroomsMembers)
+  @JoinColumn([{ name: 'StudyroomId', referencedColumnName: 'id' }])
+  Studyroom: StudyroomMembers;
 }

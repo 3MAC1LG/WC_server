@@ -13,10 +13,11 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { UsersModule } from './users/users.module';
 import * as ormconfig from '../ormconfig';
 import { ClassroomsModule } from './classrooms/classrooms.module';
-import { ChannelsModule } from './sections/setions.module';
-import { DMsModule } from './dms/dms.module';
+import { SectionModule } from './sections/setions.module';
 import { FrontendMiddleware } from './middlewares/frontend.middleware';
 import { OauthModule } from './oauth/oauth.module';
+import { VideoModule } from './videos/videos.module';
+import { WishlistsModule } from './wishlists/wishlists.module';
 
 @Module({
   imports: [
@@ -25,9 +26,10 @@ import { OauthModule } from './oauth/oauth.module';
     AuthModule,
     UsersModule,
     ClassroomsModule,
-    ChannelsModule,
-    DMsModule,
+    SectionModule,
     OauthModule,
+    VideoModule,
+    WishlistsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

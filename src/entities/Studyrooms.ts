@@ -3,24 +3,19 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  Index,
   JoinColumn,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Chats } from './Chats';
-import { ClassroomMembers } from './ClassroomMembers';
 import { Users } from './Users';
 import { Classrooms } from './Classrooms';
 import { Videos } from './Videos';
+import { StudyroomMembers } from './StudyroomMembers';
 
-@Index('name', ['name'], { unique: true })
-@Index('url', ['url'], { unique: true })
-@Index('OwnerId', ['OwnerId'], {})
-@Entity({ schema: 'nestsolbon', name: 'classrooms' })
+@Entity({ schema: 'wc_server', name: 'studyrooms' })
 export class Studyrooms {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
@@ -35,7 +30,7 @@ export class Studyrooms {
   password: string;
 
   @Column('varchar', { name: 'private', length: 100, select: false })
-  private: string; /** ????? 맞나? */
+  private: boolean;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -53,31 +48,28 @@ export class Studyrooms {
   Chats: Chats[];
 
   @OneToMany(
-    () => ClassroomMembers,
-    (classroommembers) => classroommembers.Classroom,
+    () => StudyroomMembers,
+    (studyroommembers) => studyroommembers.Studyroom,
     { cascade: ['insert'] },
   )
-  ClassroomMembers: ClassroomMembers[];
+  StudyroomsMembers: StudyroomMembers[];
 
-  @ManyToOne(() => Videos, (video) => video.Studyrooms,{
+  @ManyToOne(() => Videos, (video) => video.Studyrooms, {
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   })
   Video: Videos;
 
-  @ManyToOne(() => Classrooms, (classroom) => classroom.Studyrooms,{
+  @ManyToOne(() => Classrooms, (classroom) => classroom.Studyrooms, {
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   })
   Classroom: Classrooms;
 
-  @ManyToOne(() => Users, (users) => users.Studyrooms, {
+  @ManyToOne(() => Users, (users) => users.OwnedStudyrooms, {
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   })
   @JoinColumn([{ name: 'OwnerId', referencedColumnName: 'id' }])
   Owner: Users;
-
-  @ManyToMany(() => Users, (users) => users.Studyrooms)
-  Members: Users[];
- }
+}

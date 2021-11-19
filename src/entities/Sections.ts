@@ -3,20 +3,16 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  Index,
   JoinColumn,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Users } from './Users';
 import { Videos } from './Videos';
 import { Classrooms } from './Classrooms';
 
-@Index('ClassroomId', ['ClassroomId'], {})
-@Entity({ schema: 'nestsolbon' })
+@Entity({ schema: 'wc_server', name: 'sections' })
 export class Sections {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
@@ -48,9 +44,6 @@ export class Sections {
     cascade: ['insert'],
   })
   Videos: Videos[];
-
-  @ManyToMany(() => Users, (users) => users.Channels)
-  Members: Users[];
 
   @ManyToOne(() => Classrooms, (classroom) => classroom.Sections, {
     onDelete: 'SET NULL',

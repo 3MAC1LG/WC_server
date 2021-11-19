@@ -23,6 +23,12 @@ export class StudyroomMembers {
   @Column('int', { primary: true, name: 'UserId' })
   UserId: number;
 
+  @ManyToOne(() => Studyrooms, (studyroom) => studyroom.StudyroomMembers,{
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  Studyroom: Studyrooms;
+
   @ManyToOne(() => Users, (users) => users.StudyroomMembers, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',

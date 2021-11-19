@@ -2,7 +2,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  Index,
   JoinColumn,
   ManyToOne,
   UpdateDateColumn,
@@ -10,8 +9,7 @@ import {
 import { Classrooms } from './Classrooms';
 import { Users } from './Users';
 
-@Index('UserId', ['UserId'], {})
-@Entity('classroommembers', { schema: 'nestsolbon' })
+@Entity({ schema: 'wc_server', name: 'classroomMembers' })
 export class ClassroomMembers {
   @CreateDateColumn()
   createdAt: Date;

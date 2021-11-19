@@ -3,23 +3,21 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  Index,
-  JoinTable,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { StudyroomMembers } from './StudyroomMembers';
 import { Chats } from './Chats';
 import { Qnas } from './Qnas';
 import { ClassroomMembers } from './ClassroomMembers';
 import { Classrooms } from './Classrooms';
 import { Studyrooms } from './Studyrooms';
 import { Wishlists } from './Wishlists';
+import { StudyroomMembers } from './StudyroomMembers';
+import { Comments } from './Comments';
 
-@Index('email', ['email'], { unique: true })
-@Entity({ schema: 'nestsolbon', name: 'users' })
+@Entity({ schema: 'wc_server', name: 'users' })
 export class Users {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
@@ -49,7 +47,7 @@ export class Users {
   deletedAt: Date | null;
 
   @OneToOne(() => Wishlists, (wishlist) => wishlist.User)
-  Users: Users[];
+  wishLists: Wishlists[];
 
   @OneToMany(() => Chats, (chats) => chats.Sender)
   Chats: Chats[];
@@ -63,33 +61,20 @@ export class Users {
   @OneToMany(() => Qnas, (qnas) => qnas.Receiver)
   Qnas2: Qnas[];
 
+  @OneToMany(() => Comments, (comment) => comment.User)
+  Comments: Comments[];
+
   @OneToMany(
     () => ClassroomMembers,
     (classroommembers) => classroommembers.User,
   )
   ClassroomMembers: ClassroomMembers[];
 
+  @OneToMany(() => StudyroomMembers, (studyroommbers) => studyroommbers.User)
+  StudyroomMembers: StudyroomMembers[];
+
   @OneToMany(() => Classrooms, (classrooms) => classrooms.Owner)
   OwnedClassrooms: Classrooms[];
-
-  @JoinTable({
-    name: 'classroommembers',
-    joinColumn: {
-      name: 'UserId',
-      referencedColumnName: 'id',
-    },
-    inverseJoinColumn: {
-      name: 'ClassroomId',
-      referencedColumnName: 'id',
-    },
-  })
-  Classrooms: Classrooms[];
-
-  @OneToMany(
-    () => StudyroomMembers,
-    (studyroommembers) => studyroommembers.User,
-  )
-  StudyroomMembers: StudyroomMembers[];
 
   @OneToMany(() => Studyrooms, (studyrooms) => studyrooms.Owner)
   OwnedStudyrooms: Studyrooms[];

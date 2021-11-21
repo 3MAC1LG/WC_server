@@ -52,7 +52,7 @@ async function bootstrap() {
     session({
       resave: false,
       saveUninitialized: false,
-      secret: process.env.COOKIE_SECRET,
+      secret: process.env.SECRET_KEY,
       cookie: {
         httpOnly: true,
       },

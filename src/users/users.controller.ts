@@ -25,9 +25,10 @@ export class UsersController {
 
   @ApiCookieAuth('connect.sid')
   @ApiOperation({ summary: '내 정보 가져오기' })
-  @Get()
+  @Get('/')
   async getProfile(): Promise<any> {
-    return userData;
+    const user = userData;
+    return user;
   }
 
   @ApiOperation({ summary: '로그인' })

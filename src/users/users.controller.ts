@@ -16,7 +16,6 @@ import { User } from '../decorators/user.decorator';
 import { Users } from '../entities/Users';
 import { JoinRequestDto } from './dto/join.request.dto';
 import { UsersService } from './users.service';
-import userData from '../../data/user';
 
 @ApiTags('USERS')
 @Controller('api/users')
@@ -26,8 +25,7 @@ export class UsersController {
   @ApiCookieAuth('connect.sid')
   @ApiOperation({ summary: '내 정보 가져오기' })
   @Get('/')
-  async getProfile(): Promise<any> {
-    const user = userData;
+  async getProfile(@User() user): Promise<any> {
     return user;
   }
 

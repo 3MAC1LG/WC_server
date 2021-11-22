@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { Users } from '../entities/Users';
 import { AuthService } from './auth.service';
+import { KakaoStrategy } from './kakao.strategy';
 import { LocalSerializer } from './local.serializer';
 import { LocalStrategy } from './local.strategy';
 
@@ -12,6 +12,6 @@ import { LocalStrategy } from './local.strategy';
     PassportModule.register({ session: true }),
     TypeOrmModule.forFeature([Users]),
   ],
-  providers: [AuthService, LocalStrategy, LocalSerializer],
+  providers: [AuthService, LocalStrategy, LocalSerializer, KakaoStrategy],
 })
 export class AuthModule {}

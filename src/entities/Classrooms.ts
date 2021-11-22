@@ -51,8 +51,8 @@ export class Classrooms {
   Sections: Sections[];
 
   @ManyToOne(() => Users, (users) => users.OwnedClassrooms, {
-    onDelete: 'SET NULL',
-    onUpdate: 'CASCADE',
+    // onDelete: 'SET NULL',
+    // onUpdate: 'CASCADE',
   })
   @JoinColumn([{ name: 'OwnerId', referencedColumnName: 'id' }])
   Owner: Users;

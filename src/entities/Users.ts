@@ -16,6 +16,7 @@ import { Studyrooms } from './Studyrooms';
 import { Wishlists } from './Wishlists';
 import { StudyroomMembers } from './StudyroomMembers';
 import { Comments } from './Comments';
+import { truncate } from 'fs';
 
 @Entity({ schema: 'wc_server', name: 'users' })
 export class Users {
@@ -25,7 +26,7 @@ export class Users {
   @Column('varchar', { name: 'email', unique: true, length: 30 })
   email: string;
 
-  @Column('varchar', { name: 'nickname', length: 30 })
+  @Column('varchar', { name: 'nickname', length: 30, nullable: true })
   nickname: string;
 
   @Column('varchar', {

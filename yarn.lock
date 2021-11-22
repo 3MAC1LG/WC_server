@@ -693,7 +693,7 @@
   "resolved" "https://registry.npmjs.org/@nestjs/passport/-/passport-8.0.1.tgz"
   "version" "8.0.1"
 
-"@nestjs/platform-express@^8.0.0", "@nestjs/platform-express@^8.2.0":
+"@nestjs/platform-express@^8.0.0":
   "integrity" "sha512-IiYXT1t9hkWWjohHvNWYi/hWk8CCvDY25y8y72zkN5/iyvWWiqwmcGGhji2bENvQx8e/Vlm1d4EkwRFYWfBGjA=="
   "resolved" "https://registry.npmjs.org/@nestjs/platform-express/-/platform-express-8.2.0.tgz"
   "version" "8.2.0"
@@ -704,12 +704,12 @@
     "multer" "1.4.3"
     "tslib" "2.3.1"
 
-"@nestjs/platform-socket.io@^8.0.0", "@nestjs/platform-socket.io@^8.2.0":
-  "integrity" "sha512-GFB++Jq9r2BpzbLOKTL3FPv9lbE7nXlZvzbO281TZzvDdkw5OPrioCGEPSWWUALU4aoscMPz3H7d0NCLtlvD1A=="
-  "resolved" "https://registry.npmjs.org/@nestjs/platform-socket.io/-/platform-socket.io-8.2.0.tgz"
-  "version" "8.2.0"
+"@nestjs/platform-socket.io@^8.0.0", "@nestjs/platform-socket.io@^8.2.1":
+  "integrity" "sha512-6JmFVEv3puozUFQzVXhteX8GZR7QseSwcqCYSCC0ZahNyHkoU/pcHgXOJxu1z5hgTf3ut/lgpxjeMKuUX+puJA=="
+  "resolved" "https://registry.npmjs.org/@nestjs/platform-socket.io/-/platform-socket.io-8.2.2.tgz"
+  "version" "8.2.2"
   dependencies:
-    "socket.io" "4.3.1"
+    "socket.io" "4.3.2"
     "tslib" "2.3.1"
 
 "@nestjs/schematics@^8.0.0", "@nestjs/schematics@^8.0.3":
@@ -747,10 +747,10 @@
   dependencies:
     "uuid" "8.3.2"
 
-"@nestjs/websockets@^8.0.0", "@nestjs/websockets@^8.2.0":
-  "integrity" "sha512-xeF/GSeROek8i0KseHBvobP5XqW8tbn174Uuo8VTgJqzb9aRaXdCrEuBtCHQDFh37R/M8+u1YS+mH6JAkH5mVA=="
-  "resolved" "https://registry.npmjs.org/@nestjs/websockets/-/websockets-8.2.0.tgz"
-  "version" "8.2.0"
+"@nestjs/websockets@^8.0.0", "@nestjs/websockets@^8.2.1":
+  "integrity" "sha512-kRaQeRunta0sk5I2aaSLZOGlKAo2ekw5pLRcfz3//jMxWQfJCR5nX5m0uAGEP+CHlxeo+zAk1n41Mk5e0BcRkQ=="
+  "resolved" "https://registry.npmjs.org/@nestjs/websockets/-/websockets-8.2.1.tgz"
+  "version" "8.2.1"
   dependencies:
     "iterare" "1.2.1"
     "object-hash" "2.2.0"
@@ -1707,11 +1707,6 @@
     "@mapbox/node-pre-gyp" "^1.0.0"
     "node-addon-api" "^3.1.0"
 
-"bignumber.js@9.0.0":
-  "integrity" "sha512-t/OYhhJ2SD+YGBQcjY8GzzDHEk9f3nerxjtfa6tlMXfe7frs/WozhvCNoGvpM0P3bNf3Gq5ZRMlGr5f3r4/N8A=="
-  "resolved" "https://registry.npmjs.org/bignumber.js/-/bignumber.js-9.0.0.tgz"
-  "version" "9.0.0"
-
 "binary-extensions@^2.0.0":
   "integrity" "sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA=="
   "resolved" "https://registry.npmjs.org/binary-extensions/-/binary-extensions-2.2.0.tgz"
@@ -2443,15 +2438,15 @@
   "resolved" "https://registry.npmjs.org/dotenv-expand/-/dotenv-expand-5.1.0.tgz"
   "version" "5.1.0"
 
+"dotenv@^10.0.0", "dotenv@10.0.0":
+  "integrity" "sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q=="
+  "resolved" "https://registry.npmjs.org/dotenv/-/dotenv-10.0.0.tgz"
+  "version" "10.0.0"
+
 "dotenv@^8.2.0":
   "integrity" "sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g=="
   "resolved" "https://registry.npmjs.org/dotenv/-/dotenv-8.6.0.tgz"
   "version" "8.6.0"
-
-"dotenv@10.0.0":
-  "integrity" "sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q=="
-  "resolved" "https://registry.npmjs.org/dotenv/-/dotenv-10.0.0.tgz"
-  "version" "10.0.0"
 
 "ecc-jsbn@~0.1.1":
   "integrity" "sha1-OoOpBOVDUyh4dMVkt1SThoSamMk="
@@ -4570,16 +4565,6 @@
   "resolved" "https://registry.npmjs.org/mute-stream/-/mute-stream-0.0.8.tgz"
   "version" "0.0.8"
 
-"mysql@^2.18.1":
-  "integrity" "sha512-Bca+gk2YWmqp2Uf6k5NFEurwY/0td0cpebAucFpY/3jhrwrVGuxU2uQFCHjU19SJfje0yQvi+rVWdq78hR5lig=="
-  "resolved" "https://registry.npmjs.org/mysql/-/mysql-2.18.1.tgz"
-  "version" "2.18.1"
-  dependencies:
-    "bignumber.js" "9.0.0"
-    "readable-stream" "2.3.7"
-    "safe-buffer" "5.1.2"
-    "sqlstring" "2.3.1"
-
 "mysql2@*", "mysql2@^2.3.3-rc.0":
   "integrity" "sha512-zWPDmiOR8g9fG+23KyhhN4Fe8VE3B/G9lSq6K1tavCrcucW1BhVWrYGyLDI43Tw9SV5qBq/4pyDNpXd3Gd74LA=="
   "resolved" "https://registry.npmjs.org/mysql2/-/mysql2-2.3.3-rc.0.tgz"
@@ -5436,19 +5421,6 @@
     "isarray" "0.0.1"
     "string_decoder" "~0.10.x"
 
-"readable-stream@2.3.7":
-  "integrity" "sha512-Ebho8K4jIbHAxnuxi7o42OrZgF/ZTNcsZj6nRKyUmkhLFq8CHItp/fy6hQZuZmP/n3yZ9VBUbp4zz/mX8hmYPw=="
-  "resolved" "https://registry.npmjs.org/readable-stream/-/readable-stream-2.3.7.tgz"
-  "version" "2.3.7"
-  dependencies:
-    "core-util-is" "~1.0.0"
-    "inherits" "~2.0.3"
-    "isarray" "~1.0.0"
-    "process-nextick-args" "~2.0.0"
-    "safe-buffer" "~5.1.1"
-    "string_decoder" "~1.1.1"
-    "util-deprecate" "~1.0.1"
-
 "readdirp@~3.6.0":
   "integrity" "sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA=="
   "resolved" "https://registry.npmjs.org/readdirp/-/readdirp-3.6.0.tgz"
@@ -5833,22 +5805,10 @@
     "component-emitter" "~1.3.0"
     "debug" "~4.3.1"
 
-"socket.io@^4.3.2":
+"socket.io@^4.3.2", "socket.io@4.3.2":
   "integrity" "sha512-6S5tV4jcY6dbZ/lLzD6EkvNWI3s81JO6ABP/EpvOlK1NPOcIj3AS4khi6xXw6JlZCASq82HQV4SapfmVMMl2dg=="
   "resolved" "https://registry.npmjs.org/socket.io/-/socket.io-4.3.2.tgz"
   "version" "4.3.2"
-  dependencies:
-    "accepts" "~1.3.4"
-    "base64id" "~2.0.0"
-    "debug" "~4.3.2"
-    "engine.io" "~6.0.0"
-    "socket.io-adapter" "~2.3.2"
-    "socket.io-parser" "~4.0.4"
-
-"socket.io@4.3.1":
-  "integrity" "sha512-HC5w5Olv2XZ0XJ4gOLGzzHEuOCfj3G0SmoW3jLHYYh34EVsIr3EkW9h6kgfW+K3TFEcmYy8JcPWe//KUkBp5jA=="
-  "resolved" "https://registry.npmjs.org/socket.io/-/socket.io-4.3.1.tgz"
-  "version" "4.3.1"
   dependencies:
     "accepts" "~1.3.4"
     "base64id" "~2.0.0"
@@ -5926,11 +5886,6 @@
   "integrity" "sha512-vF4ZbYdKS8OnoJAWBmMxCQDkiEBkGQYU7UZPtL8flbDRSNkhaXvRJ279ZtI6M+zDaQovVU4tuRgzK5fVhvFAhg=="
   "resolved" "https://registry.npmjs.org/sqlstring/-/sqlstring-2.3.2.tgz"
   "version" "2.3.2"
-
-"sqlstring@2.3.1":
-  "integrity" "sha1-R1OT/56RR5rqYtyvDKPRSYOn+0A="
-  "resolved" "https://registry.npmjs.org/sqlstring/-/sqlstring-2.3.1.tgz"
-  "version" "2.3.1"
 
 "sshpk@^1.7.0":
   "integrity" "sha512-HXXqVUq7+pcKeLqqZj6mHFUMvXtOJt1uoUx09pFW6011inTMxqI8BA8PM95myrIyyKwdnzjdFjLiE6KBPVtJIg=="

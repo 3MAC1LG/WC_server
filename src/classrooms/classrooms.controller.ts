@@ -13,18 +13,22 @@ import { User } from '../decorators/user.decorator';
 import { Users } from '../entities/Users';
 import { CreateClassroomDto } from './dto/create-classroom.dto';
 import { ClassroomsService } from './classrooms.service';
+import { classroomsData } from '../../data/classrooms';
 
 @ApiTags('CLASSROOM')
 @ApiCookieAuth('connect.sid')
-@UseGuards(LoggedInGuard)
-@Controller('api/classroom')
+// @UseGuards(LoggedInGuard)
+@Controller('api/classrooms')
 export class ClassroomsController {
   constructor(private classroomsService: ClassroomsService) {}
 
   @ApiOperation({ summary: '내 클래스룸 가져오기' })
-  @Get()
-  async getMyWClassroom(@User() user: Users) {
-    return this.classroomsService.findMyClassrooms(user.id);
+  @Get('/:id')
+  async getMyWClassroom(@Param('id') id: string) {
+    console.log(id);
+    const data = classroomsData;
+    return data;
+    // return this.classroomsService.findMyClassrooms(user.id);
   }
 
   @ApiOperation({ summary: '클래스룸 만들기' })

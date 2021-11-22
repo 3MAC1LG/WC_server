@@ -23,12 +23,6 @@ export class StudyroomMembers {
   @Column('int', { primary: true, name: 'UserId' })
   UserId: number;
 
-  @ManyToOne(() => Studyrooms, (studyroom) => studyroom.StudyroomMembers,{
-    onDelete: 'SET NULL',
-    onUpdate: 'CASCADE',
-  })
-  Studyroom: Studyrooms;
-
   @ManyToOne(() => Users, (users) => users.StudyroomMembers, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
@@ -36,4 +30,10 @@ export class StudyroomMembers {
   @JoinColumn([{ name: 'UserId', referencedColumnName: 'id' }])
   User: Users;
 
+  @ManyToOne(() => Studyrooms, (studyrooms) => studyrooms.StudyroomsMembers, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn([{ name: 'StudyroomId', referencedColumnName: 'id' }])
+  Studyroom: Studyrooms;
 }

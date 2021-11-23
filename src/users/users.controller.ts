@@ -7,6 +7,7 @@ import {
   Get,
   Response,
   ForbiddenException,
+  Request,
 } from '@nestjs/common';
 import { ApiCookieAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LocalAuthGuard } from '../auth/local-auth.guard';
@@ -26,16 +27,34 @@ export class UsersController {
   @ApiOperation({ summary: '내 정보 가져오기' })
   @Get('/')
   async getProfile(@User() user): Promise<any> {
-    console.log(user);
-
     return user;
   }
 
   @ApiOperation({ summary: '로그인' })
   @UseGuards(LocalAuthGuard)
-  @Post('login')
+  @Post('/login')
   async login(@User() user: Users) {
     return user;
+  }
+
+  @ApiCookieAuth('connect.sid')
+  @ApiOperation({ summary: '로그아웃' })
+  @UseGuards(LoggedInGuard)
+  @Post('/logout')
+  logout(@Response({ passthrough: true }) res) {
+    res.clearCookie('connect.sid', { httpOnly: true });
+    return res
+      .status(200)
+      .json({ success: true, msg: '로그아웃에 성공했습니다' });
+  }
+
+  @ApiCookieAuth('connect.sid')
+  @ApiOperation({ summary: '계정 관리' })
+  @UseGuards(LoggedInGuard)
+  @Post('/edit')
+  edit(@Request() req) {
+    const {} = req.body;
+    return null;
   }
 
   @ApiOperation({ summary: '회원가입' })
@@ -56,14 +75,5 @@ export class UsersController {
     } else {
       throw new ForbiddenException();
     }
-  }
-
-  @ApiCookieAuth('connect.sid')
-  @ApiOperation({ summary: '로그아웃' })
-  @UseGuards(LoggedInGuard)
-  @Post('logout')
-  async logout(@Response() res) {
-    res.clearCookie('connect.sid', { httpOnly: true });
-    return res.send('ok');
   }
 }

@@ -8,6 +8,8 @@ import {
   Response,
   ForbiddenException,
   Request,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { ApiCookieAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LocalAuthGuard } from '../auth/local-auth.guard';
@@ -17,6 +19,7 @@ import { User } from '../decorators/user.decorator';
 import { Users } from '../entities/Users';
 import { JoinRequestDto } from './dto/join.request.dto';
 import { UsersService } from './users.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('USERS')
 @Controller('api/users')
@@ -51,10 +54,18 @@ export class UsersController {
   @ApiCookieAuth('connect.sid')
   @ApiOperation({ summary: '계정 관리' })
   @UseGuards(LoggedInGuard)
+  @UseInterceptors(FileInterceptor('file'))
   @Post('/edit')
-  edit(@Request() req) {
-    const {} = req.body;
-    return null;
+  edit(
+    @Request() req,
+    @Response() res,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    console.log(file);
+    console.log(req.body);
+    return res
+      .status(200)
+      .json({ success: true, msg: '계정 수정을 완료했습니다' });
   }
 
   @ApiOperation({ summary: '회원가입' })

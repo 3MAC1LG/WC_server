@@ -20,7 +20,12 @@ export class ClassroomsController {
   @ApiOperation({ summary: '클래스룸 만들기' })
   @Post()
   async createClassroom(@Request() req) {
-    const { title, desc, ownerId } = req.body;
-    return this.classroomsService.createClassroom(title, desc, ownerId);
+    const { title, desc, ownerId, category } = req.body;
+    return this.classroomsService.createClassroom(
+      title,
+      desc,
+      ownerId,
+      category,
+    );
   }
 }

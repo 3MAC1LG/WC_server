@@ -26,17 +26,16 @@ export class ClassroomsService {
     });
   }
 
-  async createClassroom(title: string, desc: string, ownerId: number) {
+  async createClassroom(
+    title: string,
+    desc: string,
+    ownerId: number,
+    category: string,
+  ) {
     if (!title && !desc && !ownerId) {
       throw new HttpException('데이터 형식에 맞춰 보내주세요', 401);
     }
 
     const createClassroom = await getManager().create(Classrooms);
-    await getManager().transaction(async (manger) => {
-      try {
-      } catch {
-      } finally {
-      }
-    });
   }
 }

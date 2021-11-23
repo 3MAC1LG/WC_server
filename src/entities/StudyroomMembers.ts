@@ -30,7 +30,7 @@ export class StudyroomMembers {
   @JoinColumn([{ name: 'UserId', referencedColumnName: 'id' }])
   User: Users;
 
-  @ManyToOne(() => Studyrooms, (studyrooms) => studyrooms.StudyroomsMembers, {
+  @ManyToOne(() => Studyrooms, (studyrooms) => studyrooms.StudyroomMembers, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })

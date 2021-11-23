@@ -29,6 +29,9 @@ export class Users {
   @Column('varchar', { name: 'nickname', length: 30, nullable: true })
   nickname: string;
 
+  @Column('varchar', { name: 'profileImg', nullable: true })
+  profileImg: string;
+
   @Column('varchar', {
     name: 'password',
     length: 100,

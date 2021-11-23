@@ -19,7 +19,6 @@ export class KakaoStrategy extends PassportStrategy(Strategy) {
   }
   async validate(accessToken, refreshToken, profile, done): Promise<any> {
     const { id, provider, username } = profile;
-    console.log(profile);
     let changedId = null;
     if (!profile) {
       return null;

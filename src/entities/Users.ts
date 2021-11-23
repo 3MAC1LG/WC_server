@@ -16,7 +16,6 @@ import { Studyrooms } from './Studyrooms';
 import { Wishlists } from './Wishlists';
 import { StudyroomMembers } from './StudyroomMembers';
 import { Comments } from './Comments';
-import { truncate } from 'fs';
 
 @Entity({ schema: 'wc_server', name: 'users' })
 export class Users {

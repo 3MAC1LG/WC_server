@@ -17,11 +17,11 @@ export class CreateClassroomDto {
     example: '["1강 프론트엔드 소개", "2강 프론트엔드 기초"]',
     description: '섹션 제목',
   })
-  public sections: string[];
+  public sections: number; //string[]이 안됨
 
   @ApiProperty({
     example: '솔봉',
     description: '강사님',
   })
-  public ownerId: number;
+  public OwnerId: number;
 }

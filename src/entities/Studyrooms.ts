@@ -8,6 +8,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  Index,
 } from 'typeorm';
 import { Chats } from './Chats';
 import { Users } from './Users';
@@ -15,13 +16,15 @@ import { Classrooms } from './Classrooms';
 import { Videos } from './Videos';
 import { StudyroomMembers } from './StudyroomMembers';
 
+@Index('ClassroomId', ['ClassroomId'], {})
+
 @Entity({ schema: 'wc_server', name: 'studyrooms' })
 export class Studyrooms {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'Title', unique: true, length: 30 })
-  Title: string;
+  @Column('varchar', { name: 'title', unique: true, length: 30 })
+  title: string;
 
   @Column('varchar', { name: 'Thumburl', unique: true, length: 30 })
   Thumburl: string;
@@ -46,6 +49,9 @@ export class Studyrooms {
 
   @OneToMany(() => Chats, (chats) => chats.Studyroom)
   Chats: Chats[];
+
+  @Column('int', { name: 'ClassroomId', nullable: true })
+  ClassroomId: number | null;
 
   @OneToMany(
     () => StudyroomMembers,

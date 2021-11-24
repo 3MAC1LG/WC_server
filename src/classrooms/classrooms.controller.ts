@@ -8,7 +8,10 @@ import {
   Response,
   UseGuards,
   Query,
+  UseInterceptors,
+  UploadedFiles,
 } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiCookieAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LoggedInGuard } from '../auth/logged-in.guard';
 import { User } from '../decorators/user.decorator';
@@ -61,6 +64,7 @@ export class ClassroomsController {
     });
   }
 
+  @ApiOperation({ summary: '카테고리별 클래스룸 가져오기' })
   @Get()
   async getClassroomByQuery(
     @Query('category') category,
@@ -81,5 +85,28 @@ export class ClassroomsController {
       msg: '클래스룸 정보를 성공적으로 불러왔습니다',
       data: result,
     });
+  }
+
+  @ApiCookieAuth('connect.sid')
+  @ApiOperation({ summary: '클래스룸 썸네일 생성' })
+  @UseGuards(LoggedInGuard)
+  @UseInterceptors(FilesInterceptor('file'))
+  @Post('/upload')
+  async createClassroomThumb(
+    @Request() req,
+    @Response() res,
+    @UploadedFiles() files: Array<Express.Multer.File>,
+  ) {
+    const { filePath, classroomId } = req.body;
+    const result = await this.classroomsService.createClassroomThumb(
+      filePath,
+      classroomId,
+    );
+    if (!result) {
+      throw new HttpException('클래스룸 썸네일 저장에 실패했습니다', 401);
+    }
+    return res
+      .status(200)
+      .json({ success: true, msg: '클래스룸 썸네일 생성을 성공했습니다' });
   }
 }

@@ -26,6 +26,9 @@ export class Classrooms {
   @Column('varchar', { name: 'desc', length: 30 })
   desc: string;
 
+  @Column('varchar', { name: 'classroomImg', length: 30 })
+  classroomImg: string;
+
   @Column('varchar', { name: 'category' })
   category: string;
 

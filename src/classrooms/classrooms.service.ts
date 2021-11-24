@@ -2,7 +2,6 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { getManager, Repository } from 'typeorm';
 import { Users } from '../entities/Users';
-import { ClassroomMembers } from '../entities/ClassroomMembers';
 import { Classrooms } from '../entities/Classrooms';
 
 @Injectable()
@@ -87,7 +86,7 @@ export class ClassroomsService {
     try {
       if (category === 'all') {
         const classroom = await this.classroomsRepository.findAndCount({
-          select: ['id', 'name', 'desc', 'category'],
+          select: ['id', 'name', 'desc', 'category', 'classroomImg'],
           take: 8,
           skip: (page - 1) * 8,
           order: { createdAt: 'DESC' },
@@ -101,7 +100,7 @@ export class ClassroomsService {
       } else {
         const classroom = await this.classroomsRepository.findAndCount({
           where: { category },
-          select: ['id', 'name', 'desc', 'category'],
+          select: ['id', 'name', 'desc', 'category', 'classroomImg'],
           take: 8,
           skip: (page - 1) * 8,
           order: { createdAt: 'DESC' },
@@ -113,6 +112,31 @@ export class ClassroomsService {
 
         return classroom;
       }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async createClassroomThumb(filePath: string, classroomId: number) {
+    if (!filePath && !classroomId) {
+      throw new HttpException('리퀘스트 데이터가 존재하지 않습니다', 403);
+    }
+    try {
+      const classroom = await getManager()
+        .getRepository(Classrooms)
+        .createQueryBuilder('classroom')
+        .where('classroom.id = :id', { id: classroomId })
+        .getOne();
+      if (!classroom) {
+        throw new HttpException('클래스룸을 불러오지 못했습니다', 401);
+      }
+      await getManager()
+        .createQueryBuilder()
+        .update(Classrooms)
+        .set({ classroomImg: filePath })
+        .where('id = :id', { id: classroomId })
+        .execute();
+      return true;
     } catch (e) {
       console.error(e);
     }

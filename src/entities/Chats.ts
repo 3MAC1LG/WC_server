@@ -15,8 +15,8 @@ export class Chats {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('int', { name: 'OwnerId', nullable: true })
-  OwnerId: number | null;
+  @Column('int', { name: 'OwnerId' })
+  OwnerId: number;
 
   @Column('int', { name: 'StudyroomId' })
   StudyroomId: number;

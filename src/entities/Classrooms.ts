@@ -19,11 +19,14 @@ export class Classrooms {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'name', unique: true, length: 30 })
+  @Column('varchar', { name: 'name', length: 30 })
   name: string;
 
-  @Column('varchar', { name: 'desc', unique: true, length: 30 })
+  @Column('varchar', { name: 'desc', length: 30 })
   desc: string;
+
+  @Column('varchar', { name: 'category' })
+  category: string;
 
   @CreateDateColumn()
   createdAt: Date;

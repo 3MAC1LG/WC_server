@@ -38,6 +38,9 @@ export class UsersController {
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   async login(@User() user: Users) {
+    if (!user) {
+      throw new HttpException('로그인에 실패했습니다', 401);
+    }
     return user;
   }
 
@@ -98,10 +101,6 @@ export class UsersController {
   @UseGuards(NotLoggedInGuard)
   @Post()
   async join(@Body() data: JoinRequestDto) {
-    const user = this.usersService.findByEmail(data.email);
-    if (!user) {
-      throw new NotFoundException();
-    }
     const result = await this.usersService.join(
       data.email,
       data.nickname,

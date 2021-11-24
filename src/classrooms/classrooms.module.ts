@@ -5,9 +5,19 @@ import { ClassroomMembers } from '../entities/ClassroomMembers';
 import { Classrooms } from '../entities/Classrooms';
 import { ClassroomsService } from './classrooms.service';
 import { ClassroomsController } from './classrooms.controller';
+import { Studyrooms } from 'src/entities/Studyrooms';
+import { StudyroomMembers } from 'src/entities/StudyroomMembers';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Users, Classrooms, ClassroomMembers])],
+  imports: [
+    TypeOrmModule.forFeature([
+      Users,
+      Classrooms,
+      ClassroomMembers,
+      Studyrooms,
+      StudyroomMembers,
+    ]),
+  ],
   providers: [ClassroomsService],
   controllers: [ClassroomsController],
 })

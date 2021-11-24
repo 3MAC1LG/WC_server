@@ -8,6 +8,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  Index,
 } from 'typeorm';
 import { Chats } from './Chats';
 import { Users } from './Users';
@@ -15,12 +16,14 @@ import { Classrooms } from './Classrooms';
 import { Videos } from './Videos';
 import { StudyroomMembers } from './StudyroomMembers';
 
+@Index('ClassroomId', ['ClassroomId'], {})
+
 @Entity({ schema: 'wc_server', name: 'studyrooms' })
 export class Studyrooms {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'Title', unique: true, length: 30 })
+  @Column('varchar', { name: 'title', unique: true, length: 30 })
   title: string;
 
   @Column('varchar', { name: 'Thumburl', unique: true, length: 30 })
@@ -47,12 +50,15 @@ export class Studyrooms {
   @OneToMany(() => Chats, (chats) => chats.Studyroom)
   Chats: Chats[];
 
+  @Column('int', { name: 'ClassroomId', nullable: true })
+  ClassroomId: number | null;
+
   @OneToMany(
     () => StudyroomMembers,
     (studyroommembers) => studyroommembers.Studyroom,
     { cascade: ['insert'] },
   )
-  StudyroomsMembers: StudyroomMembers[];
+  StudyroomMembers: StudyroomMembers[];
 
   @ManyToOne(() => Videos, (video) => video.Studyrooms, {
     onDelete: 'CASCADE',

@@ -6,20 +6,30 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  Index,
 } from 'typeorm';
 import { Studyrooms } from './Studyrooms';
 import { Users } from './Users';
+
+@Index('UserId', ['UserId'], {})
+@Index('StudyroomId', ['StudyroomId'], {})
 
 @Entity({ schema: 'wc_server', name: 'chats' })
 export class Chats {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
+  @Column('text', { name: 'content' })
+  content: string;
+
   @Column('int', { name: 'OwnerId', nullable: true })
   OwnerId: number | null;
 
   @Column('int', { name: 'StudyroomId' })
-  StudyroomId: number;
+  StudyroomId: number | null;
+
+  @Column('int', { name: 'UserId', nullable: true })
+  UserId: number | null;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -49,21 +49,21 @@ export class Qnas {
   Comments: Comments[];
 
   @ManyToOne(() => Videos, (video) => video.Qnas, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
   @JoinColumn([{ name: 'VideoId', referencedColumnName: 'id' }])
   Video: Videos;
 
   @ManyToOne(() => Users, (users) => users.Qnas, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
   @JoinColumn([{ name: 'SenderId', referencedColumnName: 'id' }])
   Sender: Users;
 
   @ManyToOne(() => Users, (users) => users.Qnas2, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
   @JoinColumn([{ name: 'ReceiverId', referencedColumnName: 'id' }])

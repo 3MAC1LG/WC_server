@@ -34,11 +34,17 @@ export class Comments {
   @Column('int', { name: 'QnaId', nullable: true })
   QnaId: number | null;
 
-  @ManyToOne(() => Qnas, (qnas) => qnas.Comments)
+  @ManyToOne(() => Qnas, (qnas) => qnas.Comments, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'QnaId', referencedColumnName: 'id' })
   Qna: Qnas;
 
-  @ManyToOne(() => Users, (user) => user.Comments)
+  @ManyToOne(() => Users, (user) => user.Comments, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'OwnerId', referencedColumnName: 'id' })
   User: Users;
 }

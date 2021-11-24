@@ -21,10 +21,10 @@ export class Studyrooms {
   id: number;
 
   @Column('varchar', { name: 'Title', unique: true, length: 30 })
-  Title: string;
+  title: string;
 
   @Column('varchar', { name: 'Thumburl', unique: true, length: 30 })
-  Thumburl: string;
+  thumbUrl: string;
 
   @Column('varchar', { name: 'password', length: 100, select: false })
   password: string;
@@ -55,19 +55,19 @@ export class Studyrooms {
   StudyroomsMembers: StudyroomMembers[];
 
   @ManyToOne(() => Videos, (video) => video.Studyrooms, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
   Video: Videos;
 
   @ManyToOne(() => Classrooms, (classroom) => classroom.Studyrooms, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
   Classroom: Classrooms;
 
   @ManyToOne(() => Users, (users) => users.OwnedStudyrooms, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
   @JoinColumn([{ name: 'OwnerId', referencedColumnName: 'id' }])

@@ -10,6 +10,7 @@ import {
   Request,
   UseInterceptors,
   UploadedFile,
+  HttpException,
 } from '@nestjs/common';
 import { ApiCookieAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LocalAuthGuard } from '../auth/local-auth.guard';
@@ -55,17 +56,42 @@ export class UsersController {
   @ApiOperation({ summary: '계정 관리' })
   @UseGuards(LoggedInGuard)
   @UseInterceptors(FileInterceptor('file'))
-  @Post('/edit')
-  edit(
-    @Request() req,
+  @Post('/upload')
+  async upload(
+    @User() user,
     @Response() res,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    console.log(file);
-    console.log(req.body);
+    if (!file) {
+      throw new HttpException('파일이 존재하지 않습니다.', 401);
+    }
+
+    const result = await this.usersService.createUserThumb(file.path, user.id);
+
+    if (!result) {
+      throw new HttpException('프로필 이미지 저장에 실패했습니다', 401);
+    }
+
     return res
       .status(200)
-      .json({ success: true, msg: '계정 수정을 완료했습니다' });
+      .json({ success: true, msg: '계정 수정을 완료했습니다', data: result });
+  }
+
+  @ApiCookieAuth('connect.sid')
+  @ApiOperation({ summary: '계정 관리' })
+  @UseGuards(LoggedInGuard)
+  @Post('/edit')
+  async edit(@Request() req, @User() user, @Response() res) {
+    const { nickname } = req.body;
+    const result = await this.usersService.editUserNickname(nickname, user.id);
+
+    if (!result) {
+      throw new HttpException('프로필 수정에 실패했습니다', 401);
+    }
+
+    return res
+      .status(200)
+      .json({ success: true, msg: '계정 수정을 완료했습니다', data: result });
   }
 
   @ApiOperation({ summary: '회원가입' })

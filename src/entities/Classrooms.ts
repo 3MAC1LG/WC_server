@@ -22,8 +22,8 @@ export class Classrooms {
   @Column('varchar', { name: 'name', unique: true, length: 30 })
   name: string;
 
-  @Column('varchar', { name: 'url', unique: true, length: 30 })
-  url: string;
+  @Column('varchar', { name: 'desc', unique: true, length: 30 })
+  desc: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -34,8 +34,8 @@ export class Classrooms {
   @DeleteDateColumn()
   deletedAt: Date | null;
 
-  @Column('int', { name: 'OwnerId', nullable: true })
-  OwnerId: number | null;
+  @Column('int', { name: 'OwnerId' })
+  OwnerId: number;
 
   @OneToMany(
     () => ClassroomMembers,
@@ -51,7 +51,7 @@ export class Classrooms {
   Sections: Sections[];
 
   @ManyToOne(() => Users, (users) => users.OwnedClassrooms, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
   @JoinColumn([{ name: 'OwnerId', referencedColumnName: 'id' }])

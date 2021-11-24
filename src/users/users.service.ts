@@ -1,6 +1,6 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Connection, Repository } from 'typeorm';
+import { Connection, getManager, Repository } from 'typeorm';
 import bcrypt from 'bcrypt';
 import { Users } from '../entities/Users';
 import { ClassroomMembers } from '../entities/ClassroomMembers';
@@ -53,6 +53,44 @@ export class UsersService {
       throw error;
     } finally {
       await queryRunner.release();
+    }
+  }
+
+  async createUserThumb(path: string, id: number) {
+    try {
+      const user = await getManager()
+        .createQueryBuilder()
+        .update(Users)
+        .set({ profileImg: path })
+        .where('id = :id', { id })
+        .execute();
+
+      if (!user) {
+        throw new HttpException('프로필 이미지 저장에 실패했습니다', 401);
+      }
+
+      return path;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async editUserNickname(nickname: string, id: number) {
+    try {
+      const user = await getManager()
+        .createQueryBuilder()
+        .update(Users)
+        .set({ nickname })
+        .where('id = :id', { id })
+        .execute();
+
+      if (!user) {
+        throw new HttpException('프로필 수정에 실패했습니다', 401);
+      }
+
+      return nickname;
+    } catch (e) {
+      console.error(e);
     }
   }
 }

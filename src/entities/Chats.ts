@@ -32,14 +32,14 @@ export class Chats {
   Studyroom: Studyrooms;
 
   @ManyToOne(() => Users, (users) => users.Chats, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
   @JoinColumn([{ name: 'SenderId', referencedColumnName: 'id' }])
   Sender: Users;
 
   @ManyToOne(() => Users, (users) => users.Chats2, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
   @JoinColumn([{ name: 'ReceiverId', referencedColumnName: 'id' }])

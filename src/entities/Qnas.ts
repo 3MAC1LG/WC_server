@@ -18,7 +18,7 @@ export class Qnas {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'Title', unique: true, length: 30 })
+  @Column('varchar', { name: 'title', length: 30 })
   title: string;
 
   @Column('varchar', { name: 'desc' })

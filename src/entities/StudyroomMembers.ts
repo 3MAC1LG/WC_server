@@ -17,10 +17,10 @@ export class StudyroomMembers {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @Column('int', { primary: true, name: 'StudyroomId' })
+  @Column('int', {primary: true, name: 'StudyroomId' })
   StudyroomId: number;
 
-  @Column('int', { primary: true, name: 'UserId' })
+  @Column('int', {primary: true,  name: 'UserId' })
   UserId: number;
 
   @ManyToOne(() => Users, (users) => users.StudyroomMembers, {

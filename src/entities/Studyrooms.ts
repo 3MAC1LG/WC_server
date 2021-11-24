@@ -8,7 +8,6 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  Index,
 } from 'typeorm';
 import { Chats } from './Chats';
 import { Users } from './Users';
@@ -16,23 +15,21 @@ import { Classrooms } from './Classrooms';
 import { Videos } from './Videos';
 import { StudyroomMembers } from './StudyroomMembers';
 
-@Index('ClassroomId', ['ClassroomId'], {})
-
 @Entity({ schema: 'wc_server', name: 'studyrooms' })
 export class Studyrooms {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'title', unique: true, length: 30 })
+  @Column('varchar', { name: 'title',  length: 30 })
   title: string;
 
-  @Column('varchar', { name: 'Thumburl', unique: true, length: 30 })
+  @Column('varchar', { name: 'Thumburl', length: 30 })
   thumbUrl: string;
 
   @Column('varchar', { name: 'password', length: 100, select: false })
   password: string;
 
-  @Column('varchar', { name: 'private', length: 100, select: false })
+  @Column('varchar', { name: 'private'})
   private: boolean;
 
   @CreateDateColumn()
@@ -45,13 +42,13 @@ export class Studyrooms {
   deletedAt: Date | null;
 
   @Column('int', { name: 'OwnerId', nullable: true })
-  OwnerId: number | null;
+  OwnerId: number;
 
   @OneToMany(() => Chats, (chats) => chats.Studyroom)
   Chats: Chats[];
 
   @Column('int', { name: 'ClassroomId', nullable: true })
-  ClassroomId: number | null;
+  ClassroomId: number;
 
   @OneToMany(
     () => StudyroomMembers,
@@ -70,6 +67,7 @@ export class Studyrooms {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
+  @JoinColumn([{ name: 'ClassroomId', referencedColumnName: 'id' }])
   Classroom: Classrooms;
 
   @ManyToOne(() => Users, (users) => users.OwnedStudyrooms, {

@@ -18,10 +18,10 @@ export class Videos {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'Title', length: 30 })
+  @Column('varchar', { name: 'title', length: 30 })
   title: string;
 
-  @Column('varchar', { name: 'Videourl', unique: true, length: 30 })
+  @Column('varchar', { name: 'Videourl', length: 30 })
   tideourl: string;
 
   @CreateDateColumn()
@@ -34,7 +34,7 @@ export class Videos {
   deleteAt: Date;
 
   @Column('int', { name: 'SectionId', nullable: true })
-  SectionId: number | null;
+  SectionId: number;
 
   @OneToMany(() => Studyrooms, (studyrooms) => studyrooms.Video, {
     onDelete: 'CASCADE',

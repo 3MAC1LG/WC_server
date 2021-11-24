@@ -17,7 +17,7 @@ export class Sections {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'Title', length: 30 })
+  @Column('varchar', { name: 'title', length: 30 })
   title: string;
 
   @CreateDateColumn()

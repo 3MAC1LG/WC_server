@@ -29,12 +29,6 @@ export class Classrooms {
   @Column('varchar', { name: 'desc', unique: true, length: 30 })
   desc: string;
 
-  @Column('varchar', { name: 'Rating', unique: true, length: 30 })
-  Rating: string;
-
-  @Column('varchar', { name: 'url', unique: true, length: 30 })
-  url: string;
-
   @Column('varchar', { name: 'sections', unique: true, length: 30 })
   sections: number; ///이건 나중에 sections 컨트롤러에서 바꿔야함
 
@@ -47,8 +41,8 @@ export class Classrooms {
   @DeleteDateColumn()
   deletedAt: Date | null;
 
-  @Column('int', { name: 'OwnerId', nullable: true })
-  OwnerId: number | null;
+  @Column('int', { name: 'OwnerId' })
+  OwnerId: number;
 
   @OneToMany(
     () => ClassroomMembers,
@@ -64,7 +58,7 @@ export class Classrooms {
   Sections: Sections[];
 
   @ManyToOne(() => Users, (users) => users.OwnedClassrooms, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
   @JoinColumn([{ name: 'OwnerId', referencedColumnName: 'id' }])

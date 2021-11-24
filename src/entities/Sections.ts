@@ -18,15 +18,7 @@ export class Sections {
   id: number;
 
   @Column('varchar', { name: 'Title', length: 30 })
-  Title: string;
-
-  @Column('tinyint', {
-    name: 'private',
-    nullable: true,
-    width: 1,
-    default: () => "'0'",
-  })
-  private: boolean | null;
+  title: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -37,16 +29,14 @@ export class Sections {
   @DeleteDateColumn()
   DeleteAt: Date;
 
-  @Column('int', { name: 'ClassroomId', nullable: true })
-  ClassroomId: number | null;
+  @Column('int', { name: 'ClassroomId' })
+  ClassroomId: number;
 
-  @OneToMany(() => Videos, (videos) => videos.Section, {
-    cascade: ['insert'],
-  })
+  @OneToMany(() => Videos, (videos) => videos.Section)
   Videos: Videos[];
 
   @ManyToOne(() => Classrooms, (classroom) => classroom.Sections, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
   @JoinColumn([{ name: 'ClassroomId', referencedColumnName: 'id' }])

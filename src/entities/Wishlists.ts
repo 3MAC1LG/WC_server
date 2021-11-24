@@ -31,7 +31,7 @@ export class Wishlists {
   ClassroomId: number | null;
 
   @ManyToOne(() => Users, (user) => user.wishLists, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
   @JoinColumn({ name: 'OwnerId', referencedColumnName: 'id' })

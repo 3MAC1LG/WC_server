@@ -19,18 +19,10 @@ export class Videos {
   id: number;
 
   @Column('varchar', { name: 'Title', length: 30 })
-  Title: string;
+  title: string;
 
   @Column('varchar', { name: 'Videourl', unique: true, length: 30 })
-  Videourl: string;
-
-  @Column('tinyint', {
-    name: 'private',
-    nullable: true,
-    width: 1,
-    default: () => "'0'",
-  })
-  private: boolean | null;
+  tideourl: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -39,28 +31,31 @@ export class Videos {
   updatedAt: Date;
 
   @DeleteDateColumn()
-  DeleteAt: Date;
+  deleteAt: Date;
 
   @Column('int', { name: 'SectionId', nullable: true })
   SectionId: number | null;
 
   @OneToMany(() => Studyrooms, (studyrooms) => studyrooms.Video, {
-    cascade: ['insert'],
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   })
   Studyrooms: Studyrooms[];
 
   @OneToMany(() => Qnas, (qnas) => qnas.Video, {
-    cascade: ['insert'],
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   })
   Qnas: Qnas[];
 
   @ManyToOne(() => Sections, (section) => section.Videos, {
-    cascade: ['insert'],
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   })
   Sections: Sections[];
 
   @ManyToOne(() => Sections, (section) => section.Videos, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
   @JoinColumn([{ name: 'SectionId', referencedColumnName: 'id' }])

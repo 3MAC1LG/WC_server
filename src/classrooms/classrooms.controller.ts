@@ -10,9 +10,9 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiCookieAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { LoggedInGuard } from '../auth/logged-in.guard';
+import { User } from '../decorators/user.decorator';
 import { ClassroomsService } from './classrooms.service';
-import { User } from 'src/decorators/user.decorator';
-import { LoggedInGuard } from 'src/auth/logged-in.guard';
 
 @ApiTags('CLASSROOM')
 @ApiCookieAuth('connect.sid')

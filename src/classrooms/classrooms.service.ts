@@ -10,10 +10,6 @@ export class ClassroomsService {
   constructor(
     @InjectRepository(Classrooms)
     private classroomsRepository: Repository<Classrooms>,
-    @InjectRepository(ClassroomMembers)
-    private classroomMembersRepository: Repository<ClassroomMembers>,
-    @InjectRepository(Users)
-    private usersRepository: Repository<Users>,
   ) {}
 
   async findById(id: number) {
@@ -37,7 +33,6 @@ export class ClassroomsService {
     if (!title && !desc && !userId && !category) {
       throw new HttpException('데이터 형식에 맞춰 보내주세요', 401);
     }
-
     try {
       const user = await getManager()
         .getRepository(Users)

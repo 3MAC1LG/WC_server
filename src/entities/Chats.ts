@@ -13,17 +13,16 @@ import { Users } from './Users';
 
 @Index('UserId', ['UserId'], {})
 @Index('StudyroomId', ['StudyroomId'], {})
-
 @Entity({ schema: 'wc_server', name: 'chats' })
 export class Chats {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
+  @Column('int', { name: 'OwnerId' })
+  OwnerId: number;
+
   @Column('text', { name: 'content' })
   content: string;
-
-  @Column('int', { name: 'OwnerId', nullable: true })
-  OwnerId: number | null;
 
   @Column('int', { name: 'StudyroomId' })
   StudyroomId: number | null;

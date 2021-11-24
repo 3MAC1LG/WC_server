@@ -2,75 +2,84 @@ import {
   Controller,
   Get,
   Post,
-  Body,
   Param,
-  ParseIntPipe,
+  Request,
+  HttpException,
+  Response,
+  UseGuards,
+  Query,
 } from '@nestjs/common';
 import { ApiCookieAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LoggedInGuard } from '../auth/logged-in.guard';
 import { User } from '../decorators/user.decorator';
-import { Users } from '../entities/Users';
-import { CreateClassroomDto } from './dto/create-classroom.dto';
 import { ClassroomsService } from './classrooms.service';
-import { classroomsData } from '../../data/classrooms';
 
 @ApiTags('CLASSROOM')
 @ApiCookieAuth('connect.sid')
-// @UseGuards(LoggedInGuard)
 @Controller('api/classrooms')
 export class ClassroomsController {
   constructor(private classroomsService: ClassroomsService) {}
 
-  @ApiOperation({ summary: '내 클래스룸 가져오기' })
+  @ApiOperation({ summary: '특정 클래스룸 가져오기' })
   @Get('/:id')
-  async getMyWClassroom(@Param('id') id: string) {
-    console.log(id);
-    const data = classroomsData;
-    return data;
-    // return this.classroomsService.findMyClassrooms(user.id);
-  }
-
-  @ApiOperation({ summary: '클래스룸 만들기' })
-  @Post()
-  async createClassroom(@Body() body: CreateClassroomDto) {
-    return this.classroomsService.createClassroom(
-      body.title,
-      body.desc,
-      body.sections,
-      body.OwnerId,
+  async getMyWClassroom(@Param('id') id: string, @Response() res) {
+    const result = await this.classroomsService.getClassroomById(
+      parseInt(id.slice(1)),
     );
+    if (!result) {
+      throw new HttpException('클래스룸 정보를 불러오지 못했습니다', 401);
+    }
+    return res.status(200).json({
+      success: true,
+      msg: '클래스룸 정보를 성공적으로 불러왔습니다',
+      data: result,
+    });
   }
 
-  @ApiOperation({ summary: 'Classroom 멤버 가져오기' })
-  @Get(':url/members')
-  async getClassroomMembers(@Param('url') url: string) {
-    return this.classroomsService.getClassroomMembers(url);
+  @ApiCookieAuth('connect.sid')
+  @ApiOperation({ summary: '클래스룸 만들기' })
+  @UseGuards(LoggedInGuard)
+  @Post()
+  async createClassroom(@Request() req, @User() user, @Response() res) {
+    const { title, desc, category } = req.body;
+
+    const result = await this.classroomsService.createClassroom(
+      title,
+      desc,
+      user.id,
+      category,
+    );
+
+    if (!result) {
+      throw new HttpException('데이터베이스 저장에 실패했습니다', 401);
+    }
+
+    return res.status(200).json({
+      sccuess: true,
+      msg: '클래스룸 생성에 성공했습니다',
+      data: result,
+    });
   }
 
-  @ApiOperation({ summary: 'Classroom 멤버 초대하기' })
-  @Post(':url/members')
-  async createClassroomMembers(
-    @Param('url') url: string,
-    @Body('email') email,
+  @Get()
+  async getClassroomByQuery(
+    @Query('category') category,
+    @Query('page') page,
+    @Response() res,
   ) {
-    return this.classroomsService.createClassroomMembers(url, email);
-  }
+    const result = await this.classroomsService.getClassroomByQuery(
+      category,
+      parseInt(page),
+    );
 
-  @ApiOperation({ summary: 'Classroom 특정멤버 가져오기' })
-  @Get(':url/members/:id')
-  async getClassroomMember(
-    @Param('url') url: string,
-    @Param('id', ParseIntPipe) id: number,
-  ) {
-    return this.classroomsService.getClassroomMember(url, id);
-  }
+    if (!result) {
+      throw new HttpException('클래스룸 정보를 불러오지 못했습니다', 401);
+    }
 
-  @ApiOperation({ summary: '클래스룸 특정멤버 가져오기' })
-  @Get(':url/users/:id')
-  async getClassroomUser(
-    @Param('url') url: string,
-    @Param('id', ParseIntPipe) id: number,
-  ) {
-    return this.classroomsService.getClassroomMember(url, id);
+    return res.status(200).json({
+      success: true,
+      msg: '클래스룸 정보를 성공적으로 불러왔습니다',
+      data: result,
+    });
   }
 }

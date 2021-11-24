@@ -23,14 +23,19 @@ export class Classrooms {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'name', unique: true, length: 30 })
+  @Column('varchar', { name: 'name', length: 30 })
   name: string;
 
-  @Column('varchar', { name: 'desc', unique: true, length: 30 })
+  @Column('varchar', { name: 'desc', length: 30 })
   desc: string;
 
+<<<<<<< HEAD
+  @Column('varchar', { name: 'category' })
+  category: string;
+=======
   @Column('varchar', { name: 'sections', unique: true, length: 30 })
   sections: number; ///이건 나중에 sections 컨트롤러에서 바꿔야함
+>>>>>>> cb42ca587abf964cc9d9fd28c39d67f58a5b0837
 
   @CreateDateColumn()
   createdAt: Date;

@@ -22,7 +22,7 @@ export class Users {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'email', unique: true, length: 30 })
+  @Column('varchar', { name: 'email', length: 30 })
   email: string;
 
   @Column('varchar', { name: 'nickname', length: 30, nullable: true })
@@ -42,7 +42,7 @@ export class Users {
   @Column('varchar', { name: 'provider', default: 'local' })
   provider: string;
 
-  @Column('int', { name: 'snsId', unique: true })
+  @Column('int', { name: 'snsId', nullable: true })
   snsId: number;
 
   @CreateDateColumn()

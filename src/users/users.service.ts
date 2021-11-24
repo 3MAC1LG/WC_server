@@ -21,39 +21,25 @@ export class UsersService {
   }
 
   async join(email: string, nickname: string, password: string) {
-    const queryRunner = this.connection.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-    const user = await queryRunner.manager
-      .getRepository(Users)
-      .findOne({ where: { email } });
+    const exist = await this.usersRepository.findOne({ where: { email } });
+
+    if (exist) {
+      throw new HttpException('이미 존재하는 이메일입니다', 401);
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await this.usersRepository.save({
+      email,
+      nickname,
+      password: hashedPassword,
+    });
+
     if (user) {
-      throw new ForbiddenException('이미 존재하는 사용자입니다');
-    }
-    const hashedPassword = await bcrypt.hash(password, 12);
-    try {
-      const returned = await queryRunner.manager.getRepository(Users).save({
-        email,
-        nickname,
-        password: hashedPassword,
-      });
-      const classroomMember = queryRunner.manager
-        .getRepository(ClassroomMembers)
-        .create();
-      classroomMember.UserId = returned.id;
-      classroomMember.ClassroomId = 1;
-      await queryRunner.manager
-        .getRepository(ClassroomMembers)
-        .save(classroomMember);
-      await queryRunner.commitTransaction();
       return true;
-    } catch (error) {
-      console.error(error);
-      await queryRunner.rollbackTransaction();
-      throw error;
-    } finally {
-      await queryRunner.release();
     }
+
+    return null;
   }
 
   async createUserThumb(path: string, id: number) {

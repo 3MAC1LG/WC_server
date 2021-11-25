@@ -39,6 +39,21 @@ export class ClassroomsController {
     });
   }
 
+  @Get('/myclassroom')
+  async getMyClassroom(@User() user, @Response() res) {
+    const result = await this.classroomsService.findMyClassrooms(user.id);
+    if (!result) {
+      throw new HttpException('데이터베이스 조회에 실패했습니다', 401);
+    }
+    return res
+      .ststus(200)
+      .json({
+        success: true,
+        msg: '마이 클래스룸을 성공적으로 가져왔습니다',
+        data: result,
+      });
+  }
+
   @ApiCookieAuth('connect.sid')
   @ApiOperation({ summary: '클래스룸 만들기' })
   @UseGuards(LoggedInGuard)
@@ -108,5 +123,15 @@ export class ClassroomsController {
     return res
       .status(200)
       .json({ success: true, msg: '클래스룸 썸네일 생성을 성공했습니다' });
+  }
+
+  @ApiCookieAuth('connect.sid')
+  @ApiOperation({ summary: '클래스룸 수강신청' })
+  @UseGuards(LoggedInGuard)
+  @Post('/:classroomId/register')
+  async register(@User() user, @Response() res) {
+    return res
+      .status(200)
+      .json({ success: true, msg: '클래스룸 수강신청에 성공했습니다' });
   }
 }

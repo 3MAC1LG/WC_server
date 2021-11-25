@@ -7,15 +7,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { KakaoGuard } from 'src/auth/kakao-auth.guard';
-import { LocalAuthGuard } from 'src/auth/local-auth.guard';
-import { User } from 'src/decorators/user.decorator';
 
 @Controller('oauth')
 export class OauthController {
-  // @UseGuards(LocalAuthGuard)
   @UseGuards(KakaoGuard)
   @Get('/kakao')
-  async kakaoLogin(@Request() req, @Response({ passthrough: true }) res) {
+  async kakaoLogin(@Request() req, @Response() res) {
     const user = req;
     if (!user) {
       throw new HttpException('카카오톡 로그인에 실패했습니다', 401);

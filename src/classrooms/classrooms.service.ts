@@ -15,12 +15,16 @@ export class ClassroomsService {
     return this.classroomsRepository.findOne({ where: { id } });
   }
 
-  async findMyClassrooms(myId: number) {
-    return this.classroomsRepository.find({
+  async findMyClassrooms(userId: number) {
+    const myClassroom = await this.classroomsRepository.find({
       where: {
-        ClassroomMembers: [{ userId: myId }],
+        ClassroomMembers: [{ userId: userId }],
       },
     });
+    if (!myClassroom) {
+      throw new HttpException('마이 클래스룸이 존재하지 않습니다', 401);
+    }
+    return myClassroom;
   }
 
   async createClassroom(
@@ -137,6 +141,17 @@ export class ClassroomsService {
         .where('id = :id', { id: classroomId })
         .execute();
       return true;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async register(classroomId: number, userId: number) {
+    if (!classroomId && !userId) {
+      throw new HttpException('리퀘스트 데이터가 존재하지 않습니다', 403);
+    }
+    try {
+      return null;
     } catch (e) {
       console.error(e);
     }

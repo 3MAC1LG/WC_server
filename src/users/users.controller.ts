@@ -48,11 +48,9 @@ export class UsersController {
   @ApiOperation({ summary: '로그아웃' })
   @UseGuards(LoggedInGuard)
   @Post('/logout')
-  logout(@Response({ passthrough: true }) res) {
-    res.clearCookie('connect.sid', { httpOnly: true });
-    return res
-      .status(200)
-      .json({ success: true, msg: '로그아웃에 성공했습니다' });
+  async logout(@Response({ passthrough: true }) res) {
+    await res.clearCookie('connect.sid', { httpOnly: true });
+    return true;
   }
 
   @ApiCookieAuth('connect.sid')

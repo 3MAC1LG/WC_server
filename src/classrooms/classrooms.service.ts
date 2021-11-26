@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { getManager, Repository } from 'typeorm';
 import { Users } from '../entities/Users';
 import { Classrooms } from '../entities/Classrooms';
+import { ClassroomMembers } from 'src/entities/ClassroomMembers';
 
 @Injectable()
 export class ClassroomsService {
@@ -16,15 +17,21 @@ export class ClassroomsService {
   }
 
   async findMyClassrooms(userId: number) {
-    const myClassroom = await this.classroomsRepository.find({
-      where: {
-        ClassroomMembers: [{ userId: userId }],
-      },
-    });
-    if (!myClassroom) {
-      throw new HttpException('마이 클래스룸이 존재하지 않습니다', 401);
+    try {
+      const myClassroom = await getManager()
+        .getRepository(ClassroomMembers)
+        .createQueryBuilder('classroomMember')
+        .leftJoinAndSelect('classroomMember.User', 'users')
+        .where('classroomMember.UserId = :id', { id: userId })
+        .getMany();
+
+      if (!myClassroom) {
+        throw new HttpException('클래스룸을 불러오지 못했습니다', 401);
+      }
+      return myClassroom;
+    } catch (e) {
+      console.error(e);
     }
-    return myClassroom;
   }
 
   async createClassroom(
@@ -72,6 +79,7 @@ export class ClassroomsService {
         .getRepository(Classrooms)
         .createQueryBuilder('classroom')
         .leftJoinAndSelect('classroom.Owner', 'users')
+        .leftJoinAndSelect('classroom.ClassroomMembers', 'classroomMembers')
         .where('classroom.id = :id', { id })
         .getOne();
       if (!classroom) {
@@ -151,7 +159,33 @@ export class ClassroomsService {
       throw new HttpException('리퀘스트 데이터가 존재하지 않습니다', 403);
     }
     try {
-      return null;
+      const classroom = await getManager()
+        .getRepository(Classrooms)
+        .createQueryBuilder('classroom')
+        .where('classroom.id = :id', { id: classroomId })
+        .getOne();
+
+      if (!classroom) {
+        throw new HttpException('클래스룸이 존재하지 않습니다', 401);
+      }
+
+      const myClassroom = await getManager()
+        .getRepository(ClassroomMembers)
+        .createQueryBuilder()
+        .where('classroomid = :id', { id: classroomId })
+        .andWhere('userid = :id', { id: userId })
+        .getOne();
+
+      if (myClassroom) {
+        throw new HttpException('이미 수강신청한 강의입니다', 401);
+      }
+
+      const classroomMember = await getManager()
+        .getRepository(ClassroomMembers)
+        .create({ ClassroomId: classroomId, UserId: userId });
+
+      await getManager().getRepository(ClassroomMembers).save(classroomMember);
+      return classroomMember;
     } catch (e) {
       console.error(e);
     }

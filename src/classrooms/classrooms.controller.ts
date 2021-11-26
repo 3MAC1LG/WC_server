@@ -25,7 +25,7 @@ export class ClassroomsController {
 
   @ApiOperation({ summary: '특정 클래스룸 가져오기' })
   @Get('/:id')
-  async getMyWClassroom(@Param('id') id: string, @Response() res) {
+  async getClassroomById(@Param('id') id: string, @Response() res) {
     const result = await this.classroomsService.getClassroomById(
       parseInt(id.slice(1)),
     );
@@ -37,21 +37,6 @@ export class ClassroomsController {
       msg: '클래스룸 정보를 성공적으로 불러왔습니다',
       data: result,
     });
-  }
-
-  @Get('/myclassroom')
-  async getMyClassroom(@User() user, @Response() res) {
-    const result = await this.classroomsService.findMyClassrooms(user.id);
-    if (!result) {
-      throw new HttpException('데이터베이스 조회에 실패했습니다', 401);
-    }
-    return res
-      .ststus(200)
-      .json({
-        success: true,
-        msg: '마이 클래스룸을 성공적으로 가져왔습니다',
-        data: result,
-      });
   }
 
   @ApiCookieAuth('connect.sid')
@@ -75,6 +60,21 @@ export class ClassroomsController {
     return res.status(200).json({
       sccuess: true,
       msg: '클래스룸 생성에 성공했습니다',
+      data: result,
+    });
+  }
+
+  @ApiOperation({ summary: '마이 클래스룸 가져오기' })
+  @UseGuards(LoggedInGuard)
+  @Post('/user')
+  async findMyClassrooms(@User() user, @Response() res) {
+    const result = await this.classroomsService.findMyClassrooms(user.id);
+    if (!result) {
+      throw new HttpException('데이터베이스 조회에 실패했습니다', 401);
+    }
+    return res.status(200).json({
+      success: true,
+      msg: '마이 클래스룸을 성공적으로 가져왔습니다',
       data: result,
     });
   }
@@ -129,9 +129,22 @@ export class ClassroomsController {
   @ApiOperation({ summary: '클래스룸 수강신청' })
   @UseGuards(LoggedInGuard)
   @Post('/:classroomId/register')
-  async register(@User() user, @Response() res) {
-    return res
-      .status(200)
-      .json({ success: true, msg: '클래스룸 수강신청에 성공했습니다' });
+  async register(
+    @User() user,
+    @Response() res,
+    @Param('classroomId') classroomId,
+  ) {
+    const result = await this.classroomsService.register(
+      parseInt(classroomId.slice(1)),
+      user.id,
+    );
+    if (!result) {
+      throw new HttpException('클래스룸 수강신청에 실패했습니다', 401);
+    }
+    return res.status(200).json({
+      success: true,
+      msg: '클래스룸 수강신청에 성공했습니다',
+      data: result,
+    });
   }
 }

@@ -10,6 +10,8 @@ export class ClassroomsService {
   constructor(
     @InjectRepository(Classrooms)
     private classroomsRepository: Repository<Classrooms>,
+    @InjectRepository(ClassroomMembers)
+    private classroomMembersRepository: Repository<ClassroomMembers>,
   ) {}
 
   async findById(id: number) {
@@ -189,5 +191,28 @@ export class ClassroomsService {
     } catch (e) {
       console.error(e);
     }
+  }
+
+  async cancle(classroomId: number, userId: number) {
+    if (!classroomId && !userId) {
+      throw new HttpException('리퀘스트 데이터가 존재하지 않습니다', 403);
+    }
+    try {
+      const myClassroom = await this.classroomMembersRepository.findOne({
+        where: { UserId: userId, ClassroomId: classroomId },
+      });
+
+      if (!myClassroom) {
+        throw new HttpException(
+          '데이터베이스에 조회된 수강신청 내역이 없습니다',
+          401,
+        );
+      }
+      await this.classroomMembersRepository.remove(myClassroom);
+      return { success: true, msg: '수강취소에 성공했습니다' };
+    } catch (e) {
+      console.error(e);
+    }
+    return null;
   }
 }

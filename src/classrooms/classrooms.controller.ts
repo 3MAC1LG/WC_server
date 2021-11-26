@@ -147,4 +147,25 @@ export class ClassroomsController {
       data: result,
     });
   }
+
+  @ApiCookieAuth('connect.sid')
+  @ApiOperation({ summary: '클래스룸 수강취소' })
+  @UseGuards(LoggedInGuard)
+  @Post('/:classroomId/cancle')
+  async cancle(
+    @User() user,
+    @Response() res,
+    @Param('classroomId') classroomId,
+  ) {
+    const result = await this.classroomsService.cancle(
+      parseInt(classroomId.slice(1)),
+      user.id,
+    );
+
+    if (!result) {
+      throw new HttpException('sql 쿼리를 실패했습니다', 401);
+    }
+
+    return res.status(200).json(result);
+  }
 }

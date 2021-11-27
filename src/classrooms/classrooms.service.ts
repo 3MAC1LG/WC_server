@@ -23,7 +23,7 @@ export class ClassroomsService {
       const myClassroom = await getManager()
         .getRepository(ClassroomMembers)
         .createQueryBuilder('classroomMember')
-        .leftJoinAndSelect('classroomMember.User', 'users')
+        .leftJoinAndSelect('classroomMember.Classroom', 'classrooms')
         .where('classroomMember.UserId = :id', { id: userId })
         .getMany();
 
@@ -80,8 +80,8 @@ export class ClassroomsService {
       const classroom = await getManager()
         .getRepository(Classrooms)
         .createQueryBuilder('classroom')
-        .leftJoinAndSelect('classroom.Owner', 'users')
         .leftJoinAndSelect('classroom.ClassroomMembers', 'classroomMembers')
+        .leftJoinAndSelect('classroom.Sections', 'sections')
         .where('classroom.id = :id', { id })
         .getOne();
       if (!classroom) {

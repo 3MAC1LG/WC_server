@@ -21,8 +21,11 @@ export class Videos {
   @Column('varchar', { name: 'title', length: 30 })
   title: string;
 
-  @Column('varchar', { name: 'Videourl', length: 30 })
-  tideourl: string;
+  @Column('varchar', { name: 'videoUrl', length: 30 })
+  videoUrl: string;
+
+  @Column('varchar', { name: 'videoThumbUrl', length: 30, nullable: true })
+  videoThumbUrl: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -47,12 +50,6 @@ export class Videos {
     onUpdate: 'CASCADE',
   })
   Qnas: Qnas[];
-
-  @ManyToOne(() => Sections, (section) => section.Videos, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  Sections: Sections[];
 
   @ManyToOne(() => Sections, (section) => section.Videos, {
     onDelete: 'CASCADE',

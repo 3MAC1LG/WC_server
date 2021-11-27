@@ -1,14 +1,31 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpException,
+  Param,
+  Post,
+  Request,
+  Response,
+} from '@nestjs/common';
+import { SectionService } from './setions.service';
 
-@Controller('api/section/:section')
-export class ChannelsController {
-  @Get()
-  getSection() {
-    return null;
-  }
-
-  @Post()
-  createSection() {
-    return null;
+@Controller('api/sections')
+export class SectionController {
+  constructor(private sectionService: SectionService) {}
+  @Post('/:classroomId')
+  async createSection(
+    @Param('classroomId') classroomId,
+    @Request() req,
+    @Response() res,
+  ) {
+    const { title } = req.body;
+    const result = await this.sectionService.createSection(
+      parseInt(classroomId.slice(1)),
+      title,
+    );
+    if (!result) {
+      throw new HttpException('데이터 베이스 저장에 실패했습니다', 401);
+    }
+    return res.status(200).json(result);
   }
 }

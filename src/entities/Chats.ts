@@ -15,9 +15,6 @@ export class Chats {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('int', { name: 'OwnerId' })
-  OwnerId: number;
-
   @Column('text', { name: 'content' })
   content: string;
 
@@ -37,17 +34,7 @@ export class Chats {
   @JoinColumn({ name: 'StudyroomId', referencedColumnName: 'id' })
   Studyroom: Studyrooms;
 
-  @ManyToOne(() => Users, (users) => users.Chats, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  @JoinColumn([{ name: 'SenderId', referencedColumnName: 'id' }])
-  Sender: Users;
-
-  @ManyToOne(() => Users, (users) => users.Chats2, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  @JoinColumn([{ name: 'ReceiverId', referencedColumnName: 'id' }])
-  Receiver: Users;
+  @ManyToOne(() => Users, (user) => user.Chats)
+  @JoinColumn({ name: 'UserId', referencedColumnName: 'id' })
+  User: Users;
 }

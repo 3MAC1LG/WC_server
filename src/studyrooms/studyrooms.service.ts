@@ -1,12 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MoreThan, Repository } from 'typeorm';
+import { getManager, MoreThan, Repository } from 'typeorm';
 import { StudyroomMembers } from '../entities/StudyroomMembers';
 import { Studyrooms } from '../entities/Studyrooms';
 import { Users } from '../entities/Users';
 import { Classrooms } from '../entities/Classrooms';
 import { EventsGateway } from '../events/events.gateway';
 import { Chats } from '../entities/Chats';
+import { Videos } from 'src/entities/Videos';
 
 @Injectable()
 export class StudyroomsService {
@@ -24,184 +25,212 @@ export class StudyroomsService {
     private readonly eventsGateway: EventsGateway,
   ) {}
 
-  async findById(id: number) {
-    return this.studyroomsRepository.findOne({ where: { id } });
-  }
-
-  async getClassroomStudyrooms(url: string, myId: number) {
-    return this.studyroomsRepository
-      .createQueryBuilder('studyrooms')
-      .innerJoinAndSelect(
-        'studyrooms.StudyroomMembers',
-        'studyroomMembers',
-        'studyroomMembers.userId = :myId',
-        { myId },
-      )
-      .innerJoinAndSelect(
-        'studyrooms.Classroom',
-        'classroom',
-        'classroom.url = :url',
-        { url },
-      )
-      .getMany();
-  }
-
-  async getClassroomStudyroom(url: string, title: string) {
-    return this.studyroomsRepository
-      .createQueryBuilder('studyroom')
-      .innerJoin('studyroom.Classroom', 'classroom', 'classroom.url = :url', {
-        url,
-      })
-      .where('studyroom.title = :title', { title })
-      .getOne();
-  }
-
-  async createClassroomStudyrooms(url: string, title: string, myId: number) {
-    const classroom = await this.classroomsRepository.findOne({
-      where: { url },
-    });
-    const studyroom = new Studyrooms();
-    studyroom.title = title;
-    studyroom.ClassroomId = classroom.id;
-    const studyroomReturned = await this.studyroomsRepository.save(studyroom);
-    const studyroomMember = new StudyroomMembers();
-    studyroomMember.UserId = myId;
-    studyroomMember.StudyroomId = studyroomReturned.id;
-    await this.studyroomMembersRepository.save(studyroomMember);
-  }
-
-  async getClassroomStudyroomMembers(url: string, name: string) {
-    return this.usersRepository
-      .createQueryBuilder('user')
-      .innerJoin('user.Studyrooms', 'studyrooms', 'studyrooms.name = :name', {
-        name,
-      })
-      .innerJoin('studyrooms.Classroom', 'classroom', 'classroom.url = :url', {
-        url,
-      })
-      .getMany();
-  }
-
-  async createClassroomStudyroomMembers(url, name, email) {
-    const studyroom = await this.studyroomsRepository
-      .createQueryBuilder('studyroom')
-      .innerJoin('studyroom.Classroom', 'classroom', 'classroom.url = :url', {
-        url,
-      })
-      .where('channel.name = :name', { name })
-      .getOne();
-    if (!studyroom) {
-      return null; // TODO: 이 때 어떻게 에러 발생?
+  async getStudyroom(classroomId: number) {
+    if (!classroomId) {
+      throw new HttpException('리퀘스트 데이터가 존재하지 않습니다', 403);
     }
-    const user = await this.usersRepository
-      .createQueryBuilder('user')
-      .where('user.email = :email', { email })
-      .innerJoin('user.Classrooms', 'classroom', 'classroom.url = :url', {
-        url,
-      })
-      .getOne();
-    if (!user) {
-      return null;
-    }
-    const studyroomMember = new StudyroomMembers();
-    studyroomMember.StudyroomId = studyroom.id;
-    studyroomMember.UserId = user.id;
-    await this.studyroomMembersRepository.save(studyroomMember);
-  }
+    try {
+      const classroom = await getManager()
+        .getRepository(Classrooms)
+        .createQueryBuilder('classroom')
+        .where('classroom.id = :id', { id: classroomId })
+        .getOne();
+      if (!classroom) {
+        throw new HttpException('클래스룸이 존재하지 않습니다', 401);
+      }
+      const publicStudyrooms = await getManager()
+        .getRepository(Studyrooms)
+        .find({
+          where: { ClassroomId: classroom.id, private: false },
+          join: {
+            alias: 'studyroom',
+            leftJoinAndSelect: {
+              StudyroomMembers: 'studyroom.StudyroomMembers',
+              Videos: 'studyroom.Video',
+              Users: 'studyroom.Owner',
+            },
+          },
+        });
 
-  async getClassroomStudyroomChats(
-    url: string,
-    name: string,
-    perPage: number,
-    page: number,
-  ) {
-    return this.ChatsRepository
-      .createQueryBuilder('Chats')
-      .innerJoin('Chats.Studyroom', 'studyroom', 'studyroom.name = :name', {
-        name,
-      })
-      .innerJoin('studyroom.Classroom', 'classroom', 'classroom.url = :url', {
-        url,
-      })
-      .innerJoinAndSelect('Chats.User', 'user')
-      .orderBy('Chats.createdAt', 'DESC')
-      .take(perPage)
-      .skip(perPage * (page - 1))
-      .getMany();
-  }
-
-  async createClassroomStudyroomChats(
-    url: string,
-    name: string,
-    content: string,
-    myId: number,
-  ) {
-    const studyroom = await this.studyroomsRepository
-      .createQueryBuilder('studyroom')
-      .innerJoin('studyroom.Classroom', 'classroom', 'classroom.url = :url', {
-        url,
-      })
-      .where('studyroom.name = :name', { name })
-      .getOne();
-    const chats = new Chats();
-    chats.content = content;
-    chats.UserId = myId;
-    chats.StudyroomId = studyroom.id;
-    const savedChat = await this.ChatsRepository.save(chats);
-    const chatWithUser = await this.ChatsRepository.findOne({
-      where: { id: savedChat.id },
-      relations: ['User', 'Studyroom'],
-    });
-    this.eventsGateway.server
-      // .of(`/ws-${url}`)
-      .to(`/ws-${url}-${chatWithUser.StudyroomId}`)
-      .emit('message', chatWithUser);
-  }
-
-  async createClassroomStudyroomImages(
-    url: string,
-    name: string,
-    files: Express.Multer.File[],
-    myId: number,
-  ) {
-    console.log(files);
-    const studyroom = await this.studyroomsRepository
-      .createQueryBuilder('studyroom')
-      .innerJoin('studyroom.Classroom', 'classroom', 'classroom.url = :url', {
-        url,
-      })
-      .where('studyroom.name = :name', { name })
-      .getOne();
-    for (let i = 0; i < files.length; i++) {
-      const chats = new Chats();
-      chats.content = files[i].path;
-      chats.UserId = myId;
-      chats.StudyroomId = studyroom.id;
-      const savedChat = await this.ChatsRepository.save(chats);
-      const chatWithUser = await this.ChatsRepository.findOne({
-        where: { id: savedChat.id },
-        relations: ['User', 'Studyroom'],
-      });
-      this.eventsGateway.server
-        // .of(`/ws-${url}`)
-        .to(`/ws-${url}-${chatWithUser.StudyroomId}`)
-        .emit('message', chatWithUser);
+      const privateStudyrooms = await getManager()
+        .getRepository(Studyrooms)
+        .find({ ClassroomId: classroom.id, private: true });
+      return { public: publicStudyrooms, private: privateStudyrooms };
+    } catch (e) {
+      console.error(e);
     }
   }
 
-  async getStudyroomUnreadsCount(url, name, after) {
-    const studyroom = await this.studyroomsRepository
-      .createQueryBuilder('studyroom')
-      .innerJoin('studyroom.Classroom', 'classroom', 'classroom.url = :url', {
-        url,
-      })
-      .where('studyroom.name = :name', { name })
-      .getOne();
-    return this.ChatsRepository.count({
-      where: {
-        StudyroomId: studyroom.id,
-        createdAt: MoreThan(new Date(after)),
-      },
-    });
+  async createStudyroom(
+    classroomId: number,
+    videoId: number,
+    userId: number,
+    name: string,
+    password: string | null,
+  ) {
+    if (!classroomId && !videoId && !userId && !name && !password) {
+      throw new HttpException('리퀘스트 데이터가 존재하지 않습니다', 403);
+    }
+    try {
+      const classroom = await getManager()
+        .getRepository(Classrooms)
+        .createQueryBuilder('classroom')
+        .where('classroom.id = :id', { id: classroomId })
+        .getOne();
+      if (!classroom) {
+        throw new HttpException('클래스룸이 존재하지 않습니다', 401);
+      }
+      const video = await getManager()
+        .getRepository(Videos)
+        .createQueryBuilder('video')
+        .where('video.id = :id', { id: videoId })
+        .getOne();
+      if (!video) {
+        throw new HttpException('비디오가 존재하지 않습니다', 401);
+      }
+      if (password) {
+        const privateStudyroom = await getManager()
+          .getRepository(Studyrooms)
+          .create({
+            title: name,
+            password: password,
+            private: true,
+            OwnerId: userId,
+            ClassroomId: classroom.id,
+            VideoId: video.id,
+          });
+        const returnedStudyroom = await getManager()
+          .getRepository(Studyrooms)
+          .save(privateStudyroom);
+        const studyroomMember = await getManager()
+          .getRepository(StudyroomMembers)
+          .create({
+            UserId: userId,
+            StudyroomId: returnedStudyroom.id,
+          });
+        await getManager()
+          .getRepository(StudyroomMembers)
+          .save(studyroomMember);
+        return returnedStudyroom;
+      } else {
+        const privateStudyroom = await getManager()
+          .getRepository(Studyrooms)
+          .create({
+            title: name,
+            private: false,
+            OwnerId: userId,
+            ClassroomId: classroom.id,
+            VideoId: video.id,
+          });
+        const returnedStudyroom = await getManager()
+          .getRepository(Studyrooms)
+          .save(privateStudyroom);
+        const studyroomMember = await getManager()
+          .getRepository(StudyroomMembers)
+          .create({
+            UserId: userId,
+            StudyroomId: returnedStudyroom.id,
+          });
+        await getManager()
+          .getRepository(StudyroomMembers)
+          .save(studyroomMember);
+        return returnedStudyroom;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async joinStudyroom(studyroomId: number, userId: number) {
+    if (!studyroomId && !userId) {
+      throw new HttpException('리퀘스트 데이터가 존재하지 않습니다', 403);
+    }
+    try {
+      const studyroom = await getManager()
+        .getRepository(Studyrooms)
+        .createQueryBuilder('studyroom')
+        .where('studyroom.id = :id', { id: studyroomId })
+        .getOne();
+      if (!studyroom) {
+        throw new HttpException('스터디룸이 존재하지 않습니다', 401);
+      }
+      const existMember = await getManager()
+        .getRepository(StudyroomMembers)
+        .createQueryBuilder('studyroomMember')
+        .where('studyroomMember.UserId = :id', { id: userId })
+        .getOne();
+
+      if (existMember) {
+        throw new HttpException('이미 스터디룸에 참가했습니다', 401);
+      }
+      const member = await getManager()
+        .getRepository(StudyroomMembers)
+        .create({ StudyroomId: studyroomId, UserId: userId });
+      await getManager().getRepository(StudyroomMembers).save(member);
+
+      return member;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async getStudyroomMember(studyroomId: number) {
+    if (!studyroomId) {
+      throw new HttpException('리퀘스트 데이터가 존재하지 않습니다', 403);
+    }
+    try {
+      const studyroom = await getManager()
+        .getRepository(Studyrooms)
+        .createQueryBuilder('studyroom')
+        .where('studyroom.id = :id', { id: studyroomId })
+        .getOne();
+      if (!studyroom) {
+        throw new HttpException('스터디룸이 존재하지 않습니다', 401);
+      }
+      const studyroomMembers = await getManager()
+        .getRepository(StudyroomMembers)
+        .find({
+          where: { StudyroomId: studyroomId },
+          join: {
+            alias: 'studyroomMembers',
+            leftJoinAndSelect: {
+              Users: 'studyroomMembers.User',
+            },
+          },
+        });
+      return studyroomMembers;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async getStudyroomById(studyroomId: number) {
+    if (!studyroomId) {
+      throw new HttpException('리퀘스트 데이터가 존재하지 않습니다', 403);
+    }
+    try {
+      const exist = await getManager()
+        .getRepository(Studyrooms)
+        .createQueryBuilder('studyroom')
+        .where('studyroom.id = :id', { id: studyroomId })
+        .getOne();
+      if (!exist) {
+        throw new HttpException('스터디룸이 존재하지 않습니다', 401);
+      }
+      const studyroom = await getManager()
+        .getRepository(Studyrooms)
+        .find({
+          where: { id: studyroomId },
+          join: {
+            alias: 'studyroom',
+            leftJoinAndSelect: {
+              Videos: 'studyroom.Video',
+            },
+          },
+        });
+      return studyroom;
+    } catch (e) {
+      console.error(e);
+    }
   }
 }

@@ -1,5 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { Sections } from 'src/entities/Sections';
+import { Studyrooms } from 'src/entities/Studyrooms';
 import { Videos } from 'src/entities/Videos';
 import { getManager } from 'typeorm';
 
@@ -59,5 +60,23 @@ export class VideoService {
       console.error(e);
     }
     return null;
+  }
+
+  async getStudyroomVideo(studyroomId: number) {
+    if (!studyroomId) {
+      throw new HttpException('리퀘스트 데이터가 존재하지 않습니다', 403);
+    }
+    try {
+      const studyroom = await getManager()
+        .getRepository(Studyrooms)
+        .createQueryBuilder('studyroom')
+        .where('studyroom.id = :id', { id: studyroomId })
+        .getOne();
+      if (!studyroom) {
+        throw new HttpException('스터디룸이 존재하지 않습니다', 401);
+      }
+    } catch (e) {
+      console.error(e);
+    }
   }
 }

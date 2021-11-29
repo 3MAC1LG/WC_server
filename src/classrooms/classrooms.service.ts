@@ -82,6 +82,7 @@ export class ClassroomsService {
         .createQueryBuilder('classroom')
         .leftJoinAndSelect('classroom.ClassroomMembers', 'classroomMembers')
         .leftJoinAndSelect('classroom.Sections', 'sections')
+        .leftJoinAndSelect('classroom.Studyrooms', 'studyrooms')
         .where('classroom.id = :id', { id })
         .getOne();
       if (!classroom) {

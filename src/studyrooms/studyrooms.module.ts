@@ -23,4 +23,4 @@ import { EventsModule } from '../events/events.module';
   providers: [StudyroomsService],
   controllers: [StudyroomsController],
 })
-export class ChannelsModule {}
+export class StudyroomsModule {}

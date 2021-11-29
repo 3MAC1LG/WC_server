@@ -57,11 +57,8 @@ export class Users {
   @OneToOne(() => Wishlists, (wishlist) => wishlist.User)
   wishLists: Wishlists[];
 
-  @OneToMany(() => Chats, (chats) => chats.Sender)
+  @OneToMany(() => Chats, (chats) => chats.User)
   Chats: Chats[];
-
-  @OneToMany(() => Chats, (chats) => chats.Receiver)
-  Chats2: Chats[];
 
   @OneToMany(() => Qnas, (qnas) => qnas.Sender)
   Qnas: Qnas[];

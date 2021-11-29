@@ -36,4 +36,10 @@ export class VideoController {
     }
     return res.status(200).json(result);
   }
+
+  @Get('/:sutdyroomId/studyroom')
+  async getStudyroomVideo(@Param('studyroomId') studyroomId, @Response() res) {
+    const result = null;
+    return null;
+  }
 }

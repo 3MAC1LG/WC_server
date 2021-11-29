@@ -12,6 +12,7 @@ import { SectionModule } from './sections/setions.module';
 import { OauthModule } from './oauth/oauth.module';
 import { VideoModule } from './videos/videos.module';
 import { WishlistsModule } from './wishlists/wishlists.module';
+import { StudyroomsModule } from './studyrooms/studyrooms.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { WishlistsModule } from './wishlists/wishlists.module';
     OauthModule,
     VideoModule,
     WishlistsModule,
+    StudyroomsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

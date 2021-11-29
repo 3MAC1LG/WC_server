@@ -9,16 +9,15 @@ import {
   UseInterceptors,
   UploadedFiles,
   ParseIntPipe,
+  Response,
+  Request,
+  HttpException,
 } from '@nestjs/common';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { ApiCookieAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import fs from 'fs';
-import multer from 'multer';
-import path from 'path';
 import { LoggedInGuard } from '../auth/logged-in.guard';
 import { User } from '../decorators/user.decorator';
 import { Users } from '../entities/Users';
-import { CreateStudyroomDto } from './dto/create-studyroom.dto';
 import { StudyroomsService } from './studyrooms.service';
 
 try {
@@ -28,127 +27,115 @@ try {
   fs.mkdirSync('uploads');
 }
 
-@ApiTags('STUDYROOMS')
+@ApiTags('Studyrooms')
 @ApiCookieAuth('connect.sid')
-@UseGuards(LoggedInGuard)
-@Controller('api/classrooms')
+@Controller('/api/studyrooms')
 export class StudyroomsController {
   constructor(private studyroomsService: StudyroomsService) {}
 
-  @ApiOperation({ summary: 'classroom studyroom 모두 가져오기' })
-  @Get(':url/studyrooms')
-  async getClassroomStudyrooms(@Param('url') url, @User() user: Users) {
-    return this.studyroomsService.getClassroomStudyrooms(url, user.id);
+  @ApiOperation({ summary: '클래스룸에 속한 스터디룸 조회' })
+  @Get('/:classroomId')
+  async getStudyrooms(@Param('classroomId') classroomId, @Response() res) {
+    const result = await this.studyroomsService.getStudyroom(
+      parseInt(classroomId.slice(1)),
+    );
+    if (!result) {
+      throw new HttpException('데이터 베이스 조회에 실패했습니다', 401);
+    }
+    return res.status(200).json({
+      success: true,
+      msg: '클래스룸 에 속한스터디룸 조회에 성공했습니다',
+      data: result,
+    });
   }
 
-  @ApiOperation({ summary: 'classroom 특정 studyroom 가져오기' })
-  @Get(':url/studyrooms/:name')
-  async getClassroomStudyroom(@Param('url') url, @Param('name') name) {
-    return this.studyroomsService.getClassroomStudyroom(url, name);
-  }
-
-  @ApiOperation({ summary: 'classroom studyroom 만들기' })
-  @Post(':url/studyrooms')
-  async createClassroomStudyrooms(
-    @Param('url') url,
-    @Body() body: CreateStudyroomDto,
-    @User() user: Users,
+  @ApiOperation({ summary: '스터디룸 멤버 조회' })
+  @Get('/:studyroomId/members')
+  async getStudyroomMembers(
+    @Param('studyroomId') studyroomId,
+    @Response() res,
   ) {
-    return this.studyroomsService.createClassroomStudyrooms(
-      url,
-      body.name,
+    const result = await this.studyroomsService.getStudyroomMember(
+      parseInt(studyroomId.slice(1)),
+    );
+    if (!result) {
+      throw new HttpException('데이터 베이스 조회에 실패했습니다', 401);
+    }
+    return res.status(200).json({
+      success: true,
+      msg: '스터디룸 멤버 조회에 성공했습니다',
+      data: result,
+    });
+  }
+
+  @ApiOperation({ summary: '스터디룸 멤버 조회' })
+  @Get('/:studyroomId/studyroom')
+  async getStudyroomById(@Param('studyroomId') studyroomId, @Response() res) {
+    const result = await this.studyroomsService.getStudyroomById(
+      parseInt(studyroomId.slice(1)),
+    );
+    if (!result) {
+      throw new HttpException('데이터 베이스 조회에 실패했습니다', 401);
+    }
+    return res.status(200).json({
+      success: true,
+      msg: '스터디룸 멤버 조회에 성공했습니다',
+      data: result,
+    });
+  }
+
+  @ApiOperation({ summary: '스터디룸 생성' })
+  @Post('/:classroomId')
+  async createStudyrooms(
+    @Param('classroomId') classroomId,
+    @User() user,
+    @Response() res,
+    @Request() req,
+  ) {
+    const { studyroom, video } = req.body;
+    const { id: videoId } = video;
+    const { name, password } = studyroom;
+    const result = await this.studyroomsService.createStudyroom(
+      parseInt(classroomId.slice(1)),
+      videoId,
+      user.id,
+      name,
+      password,
+    );
+    if (!result) {
+      throw new HttpException('데이터 베이스 저장에 실패했습니다', 401);
+    }
+    return res.status(200).json({
+      success: true,
+      msg: '스터디룸 생성에 성공했습니다',
+      data: result,
+    });
+  }
+
+  @ApiOperation({ summary: '스터디룸 참여' })
+  @Post('/:studyroomId/join')
+  async joinStudyroom(
+    @Param('studyroomId') studyroomId,
+    @User() user,
+    @Response() res,
+  ) {
+    const result = await this.studyroomsService.joinStudyroom(
+      studyroomId,
       user.id,
     );
+    if (!result) {
+      throw new HttpException('데이터 베이스 저장에 실패했습니다', 401);
+    }
+    return res.status(200).json({
+      success: true,
+      msg: '스터디룸 참가에 성공했습니다',
+      data: result,
+    });
   }
 
-  @ApiOperation({ summary: 'classroom studyroom 멤버 가져오기' })
-  @Get(':url/studyrooms/:name/members')
-  async getClassroomStudyroomMembers(
-    @Param('url') url: string,
-    @Param('name') name: string,
-  ) {
-    return this.studyroomsService.getClassroomStudyroomMembers(url, name);
-  }
-
-  @ApiOperation({ summary: 'classroom studyroom 멤버 초대하기' })
-  @Post(':url/studyrooms/:name/members')
-  async createClassroomMembers(
-    @Param('url') url: string,
-    @Param('name') name: string,
-    @Body('email') email,
-  ) {
-    return this.studyroomsService.createClassroomStudyroomMembers(url, name, email);
-  }
-
-  @ApiOperation({ summary: 'classroom 특정 studyroom 채팅 모두 가져오기' })
-  @Get(':url/studyrooms/:name/chats')
-  async getClassroomStudyroomChats(
-    @Param('url') url,
-    @Param('name') name,
-    @Query('perPage', ParseIntPipe) perPage: number,
-    @Query('page', ParseIntPipe) page: number,
-  ) {
-    return this.studyroomsService.getClassroomStudyroomChats(
-      url,
-      name,
-      perPage,
-      page,
-    );
-  }
-
-  @ApiOperation({ summary: 'classroom 특정 studyroom 채팅 생성하기' })
-  @Post(':url/studyrooms/:name/chats')
-  async createClassroomStudyroomChats(
-    @Param('url') url,
-    @Param('name') name,
-    @Body('content') content,
-    @User() user: Users,
-  ) {
-    return this.studyroomsService.createClassroomStudyroomChats(
-      url,
-      name,
-      content,
-      user.id,
-    );
-  }
-
-  @ApiOperation({ summary: 'Classroom 특정 Studyroom 이미지 업로드하기' })
-  @UseInterceptors(
-    FilesInterceptor('image', 10, {
-      storage: multer.diskStorage({
-        destination(req, file, cb) {
-          cb(null, 'uploads/');
-        },
-        filename(req, file, cb) {
-          const ext = path.extname(file.originalname);
-          cb(null, path.basename(file.originalname, ext) + Date.now() + ext);
-        },
-      }),
-      limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
-    }),
-  )
-  @Post(':url/studyrooms/:name/images')
-  async createClassroomStudyroomImages(
-    @Param('url') url,
-    @Param('name') name,
-    @UploadedFiles() files: Express.Multer.File[],
-    @User() user: Users,
-  ) {
-    return this.studyroomsService.createClassroomStudyroomImages(
-      url,
-      name,
-      files,
-      user.id,
-    );
-  }
-
-  @ApiOperation({ summary: '안 읽은 개수 가져오기' })
-  @Get(':url/studyroom/:name/unreads')
-  async getUnreads(
-    @Param('url') url,
-    @Param('name') name,
-    @Query('after', ParseIntPipe) after: number,
-  ) {
-    return this.studyroomsService.getStudyroomUnreadsCount(url, name, after);
+  @ApiOperation({ summary: '스터디룸 삭제' })
+  @Post('/:studyroom/remove')
+  async removeStudyroom() {
+    return null;
   }
 }

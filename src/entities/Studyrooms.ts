@@ -20,16 +20,21 @@ export class Studyrooms {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'title',  length: 30 })
+  @Column('varchar', { name: 'title', length: 30 })
   title: string;
 
-  @Column('varchar', { name: 'Thumburl', length: 30 })
+  @Column('varchar', { name: 'Thumburl', length: 30, nullable: true })
   thumbUrl: string;
 
-  @Column('varchar', { name: 'password', length: 100, select: false })
+  @Column('varchar', {
+    name: 'password',
+    length: 100,
+    select: false,
+    nullable: true,
+  })
   password: string;
 
-  @Column('varchar', { name: 'private'})
+  @Column('varchar', { name: 'private' })
   private: boolean;
 
   @CreateDateColumn()
@@ -50,6 +55,9 @@ export class Studyrooms {
   @Column('int', { name: 'ClassroomId', nullable: true })
   ClassroomId: number;
 
+  @Column('int', { name: 'VideoId', nullable: true })
+  VideoId: number;
+
   @OneToMany(
     () => StudyroomMembers,
     (studyroommembers) => studyroommembers.Studyroom,
@@ -61,6 +69,7 @@ export class Studyrooms {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
+  @JoinColumn([{ name: 'VideoId', referencedColumnName: 'id' }])
   Video: Videos;
 
   @ManyToOne(() => Classrooms, (classroom) => classroom.Studyrooms, {

@@ -6,8 +6,6 @@ import {
   Body,
   Param,
   Query,
-  UseInterceptors,
-  UploadedFiles,
   ParseIntPipe,
   Response,
   Request,
@@ -137,5 +135,33 @@ export class StudyroomsController {
   @Post('/:studyroom/remove')
   async removeStudyroom() {
     return null;
+  }
+
+  @ApiOperation({ summary: '스터디룸 특정 채널 채팅 모두 가져오기' })
+  @Get(':studyroomId/chats')
+  async getWorkspaceChannelChats(
+    @Param('studyroomId') studyroomId,
+    @Query('perPage', ParseIntPipe) perPage: number,
+    @Query('page', ParseIntPipe) page: number,
+  ) {
+    return this.studyroomsService.getStudyroomChats(
+      parseInt(studyroomId.slice(1)),
+      perPage,
+      page,
+    );
+  }
+
+  @ApiOperation({ summary: '스터디룸 특정 채널 채팅 생성하기' })
+  @Post('/:studyroomId/chats')
+  async createWorkspaceChannelChats(
+    @Param('studyroomId') studyroomId,
+    @Body('content') content,
+    @User() user,
+  ) {
+    return this.studyroomsService.createStudyroomChats(
+      parseInt(studyroomId.slice(1)),
+      content,
+      user.id,
+    );
   }
 }

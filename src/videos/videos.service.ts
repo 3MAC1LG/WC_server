@@ -75,6 +75,10 @@ export class VideoService {
       if (!studyroom) {
         throw new HttpException('스터디룸이 존재하지 않습니다', 401);
       }
+      const video = await getManager()
+        .getRepository(Videos)
+        .createQueryBuilder('video')
+        .where('video.');
     } catch (e) {
       console.error(e);
     }

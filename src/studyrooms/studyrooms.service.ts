@@ -18,7 +18,7 @@ export class StudyroomsService {
     private studyroomMembersRepository: Repository<StudyroomMembers>,
     @InjectRepository(Classrooms)
     private classroomsRepository: Repository<Classrooms>,
-    @InjectRepository(Classrooms)
+    @InjectRepository(Chats)
     private ChatsRepository: Repository<Chats>,
     @InjectRepository(Users)
     private usersRepository: Repository<Users>,
@@ -225,6 +225,7 @@ export class StudyroomsService {
             alias: 'studyroom',
             leftJoinAndSelect: {
               Videos: 'studyroom.Video',
+              Classrooms: 'studyroom.Classroom',
             },
           },
         });
@@ -232,5 +233,41 @@ export class StudyroomsService {
     } catch (e) {
       console.error(e);
     }
+  }
+
+  async getStudyroomChats(studyroomId: number, perPage: number, page: number) {
+    return this.ChatsRepository.createQueryBuilder('chats')
+      .innerJoin('chats.Studyroom', 'studyroom', 'studyroom.id = :id', {
+        id: studyroomId,
+      })
+      .innerJoinAndSelect('chats.User', 'user')
+      .orderBy('chats.createdAt', 'DESC')
+      .take(perPage)
+      .skip(perPage * (page - 1))
+      .getMany();
+  }
+
+  async createStudyroomChats(
+    studyroomId: number,
+    content: string,
+    userId: number,
+  ) {
+    const studyroom = await getManager()
+      .getRepository(Studyrooms)
+      .createQueryBuilder('studyroom')
+      .where('studyroom.id = :id', { id: studyroomId })
+      .getOne();
+
+    const chats = await getManager()
+      .getRepository(Chats)
+      .create({ content, UserId: userId, StudyroomId: studyroom.id });
+    const savedChat = await getManager().getRepository(Chats).save(chats);
+    const chatWithUser = await this.ChatsRepository.findOne({
+      where: { id: savedChat.id },
+      relations: ['User', 'Studyroom'],
+    });
+    this.eventsGateway.server
+      .to(`/sr-${studyroom.ClassroomId}-${chatWithUser.StudyroomId}`)
+      .emit('message', chatWithUser);
   }
 }

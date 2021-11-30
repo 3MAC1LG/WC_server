@@ -148,21 +148,19 @@ export class StudyroomsService {
     try {
       const studyroom = await getManager()
         .getRepository(Studyrooms)
-        .createQueryBuilder('studyroom')
-        .where('studyroom.id = :id', { id: studyroomId })
-        .getOne();
+        .findOne({ where: { id: studyroomId } });
       if (!studyroom) {
         throw new HttpException('스터디룸이 존재하지 않습니다', 401);
       }
-      const existMember = await getManager()
-        .getRepository(StudyroomMembers)
-        .createQueryBuilder('studyroomMember')
-        .where('studyroomMember.UserId = :id', { id: userId })
-        .getOne();
+      // const existMember = await getManager()
+      //   .getRepository(StudyroomMembers)
+      //   .createQueryBuilder('studyroomMember')
+      //   .where('studyroomMember.UserId = :id', { id: userId })
+      //   .getOne();
 
-      if (existMember) {
-        throw new HttpException('이미 스터디룸에 참가했습니다', 401);
-      }
+      // if (existMember) {
+      //   throw new HttpException('이미 스터디룸에 참가했습니다', 401);
+      // }
       const member = await getManager()
         .getRepository(StudyroomMembers)
         .create({ StudyroomId: studyroomId, UserId: userId });

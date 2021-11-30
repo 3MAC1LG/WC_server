@@ -118,9 +118,11 @@ export class StudyroomsController {
     @Response() res,
   ) {
     const result = await this.studyroomsService.joinStudyroom(
-      studyroomId,
+      parseInt(studyroomId.slice(1)),
       user.id,
     );
+    console.log(studyroomId);
+
     if (!result) {
       throw new HttpException('데이터 베이스 저장에 실패했습니다', 401);
     }

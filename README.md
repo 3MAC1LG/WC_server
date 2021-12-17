@@ -11,7 +11,7 @@ Front End / <img src="https://img.shields.io/badge/React-61DAFB?style=flat-squar
 
 Back End / <img src="https://img.shields.io/badge/NestJS-E0234E?style=flat-square&logo=NestJS&logoColor=black"/> <img src="https://img.shields.io/badge/-Node.js-%23339933?style=flat-square&logo=node.js&logoColor=white"/>
 
-Database / MySQL, TypeORM <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=black"/> <img src="https://img.shields.io/badge/TypeORM-262627?style=flat-square&logo=TypeORM&logoColor=white"/>
+Database / <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=black"/> <img src="https://img.shields.io/badge/TypeORM-262627?style=flat-square&logo=TypeORM&logoColor=white"/>
 
 ## 3. 시스템 구조 / Web Flow Chart
 ![image](https://github.com/3MAC1LG/WC_server/blob/master/pic/%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%20(7).png)

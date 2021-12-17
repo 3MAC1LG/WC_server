@@ -19,7 +19,15 @@ Database / MySQL, TypeORM <img src="https://img.shields.io/badge/MySQL-4479A1?st
 ## 4. 데이터베이스 테이블 / Database Table
 ![image](https://github.com/3MAC1LG/WC_server/blob/master/pic/%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%20(8).png)
 
-## 5. 기대효과
+## 5. 결과 / Result
+![image](https://github.com/3MAC1LG/WC_server/blob/master/pic/%EC%8A%AC%EB%9D%BC%EC%9D%B4%EB%93%9C8.PNG)
+![image](https://github.com/3MAC1LG/WC_server/blob/master/pic/%EC%8A%AC%EB%9D%BC%EC%9D%B4%EB%93%9C9.PNG)
+![image](https://github.com/3MAC1LG/WC_server/blob/master/pic/%EC%8A%AC%EB%9D%BC%EC%9D%B4%EB%93%9C10.PNG)
+![image](https://github.com/3MAC1LG/WC_server/blob/master/pic/%EC%8A%AC%EB%9D%BC%EC%9D%B4%EB%93%9C11.PNG)
+
+
+
+## 6. 기대효과
 상호 작용 / 학생들끼리의 실시간 소통
 
 동기부여 / 학업 능력 증진

@@ -35,3 +35,16 @@ Database / MySQL, TypeORM <img src="https://img.shields.io/badge/MySQL-4479A1?st
 수익 증대 / 공동 수강을 통한 수요 증가로 인한 이익 증가
 
 시력 보호 / 다크모드 구현을 통한 눈의 피로 감소
+
+## 7. Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/blan19"><img src="" width="100px;" alt=""/><br /><sub><b>Junseo Park</b></sub></a><br /><a href="#question-kentcdodds" title="Answering Questions">💬</a> <a href="" title="Documentation">📖</a> <a href="https://github.com/3MAC1LG/WC_server/pulls?q=is%3Apr+is%3Aclosed+label%3A%EC%A4%80%EC%84%9C" title="Reviewed Pull Requests">👀</a> <a href="#infra-jakebolam" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
+      <td align="center"><a href="https://github.com/Junst"><img src="" width="100px;" alt=""/><br /><sub><b>Junyoung Koh</b></sub></a><br /><a href="#question-kentcdodds" title="Answering Questions">💬</a> <a href="" title="Documentation">📖</a> <a href="https://github.com/3MAC1LG/WC_server/pulls?q=is%3Apr+is%3Aclosed+label%3A%EC%A4%80%EC%98%81" title="Reviewed Pull Requests">👀</a> <a href="#talk-kentcdodds" title="Talks">📢</a></td>
+      <td align="center"><a href="https://github.com/paulryu96"><img src="" width="100px;" alt=""/><br /><sub><b>Minseok Ryu</b></sub></a><br /><a href="#question-kentcdodds" title="Answering Questions">💬</a> <a href="" title="Documentation">📖</a> <a href="" title="Reviewed Pull Requests">👀</a> <a href="#talk-kentcdodds" title="Talks">🎨</a></td>
+    <td align="center"><a href="https://github.com/somin00"><img src="" width="100px;" alt=""/><br /><sub><b>Somin Oh</b></sub></a><br /><a href="#question-kentcdodds" title="Answering Questions">💬</a> <a href="" title="Documentation">📖</a> <a href="h" title="Reviewed Pull Requests">👀</a> <a href="#tool-jfmengels" title="Tools">🔧</a></td>
+  </tr>
+</table>
